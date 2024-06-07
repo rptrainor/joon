@@ -18,6 +18,7 @@
     "@expo/vector-icons": "^14.0.0",
     "@react-navigation/native": "^6.0.2",
     "@xstate/react": "^4.1.1",
+    "FontAwesome5": "link:@expo/vector-icons/FontAwesome5",
     "expo": "~51.0.10",
     "expo-constants": "~16.0.2",
     "expo-dev-client": "~4.0.15",

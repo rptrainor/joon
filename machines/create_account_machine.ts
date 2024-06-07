@@ -37,7 +37,7 @@ export const machine = setup({
       | { type: 'SAVE_PASSWORD'; password: string; }
       | { type: 'CREATE_ACCOUNT'; }
       | { type: 'NEXT_SCREEN'; }
-      | { type: 'BACK'; }
+      | { type: 'BACK_SCREEN'; }
   },
   actors: {
     createAccount: fromPromise(async ({ input }: { input: CreateAccountProps }) => {
@@ -120,7 +120,6 @@ export const machine = setup({
               name: "string",
             },
           },
-          target: "GENDER_SCREEN",
         },
         NEXT_SCREEN: {
           target: "GENDER_SCREEN",
@@ -136,10 +135,12 @@ export const machine = setup({
               gender: "string",
             },
           },
-          target: "CHILDREN_NAMES_SCREEN",
         },
-        BACK: {
+        BACK_SCREEN: {
           target: "NAME_SCREEN",
+        },
+        NEXT_SCREEN: {
+          target: "CHILDREN_NAMES_SCREEN",
         },
       },
     },
@@ -152,10 +153,12 @@ export const machine = setup({
               childrenNames: [],
             },
           },
-          target: "LOGIN_DETAILS_SCREEN",
         },
-        BACK: {
+        BACK_SCREEN: {
           target: "GENDER_SCREEN",
+        },
+        NEXT_SCREEN: {
+          target: "LOGIN_DETAILS_SCREEN",
         },
       },
     },
@@ -177,7 +180,7 @@ export const machine = setup({
             },
           },
         },
-        BACK: {
+        BACK_SCREEN: {
           target: "CHILDREN_NAMES_SCREEN",
         },
         CREATE_ACCOUNT: {

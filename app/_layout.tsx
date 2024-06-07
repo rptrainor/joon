@@ -32,8 +32,9 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="index" />
-          <Stack.Screen name="second" />
-          <Stack.Screen name="third" />
+          <Stack.Screen name="gender-screen" />
+          <Stack.Screen name="children-names-screen" />
+          <Stack.Screen name="login-details-screen" />
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>

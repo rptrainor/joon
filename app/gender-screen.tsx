@@ -1,6 +1,7 @@
 import { useNavigation } from 'expo-router';
 import { Text, StyleSheet, SafeAreaView, TextInput, Pressable, View } from 'react-native';
 import { useEffect, useState, useCallback, useRef } from 'react';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 import { useSend } from '@/contexts/MachineContext';
 import { useStateMachineNavigation } from '@/hooks/useStateMachineNavigation';
@@ -17,10 +18,14 @@ const useDebounce = (callback: (...args: any) => void, delay: number) => {
   }, [callback, delay]);
 };
 
-export default function NameScreen() {
+export default function GenderScreen() {
   const { send, state } = useSend();
   const navigation = useNavigation();
   const [inputValue, setInputValue] = useState(state.context.name);
+
+  const handleBackButtonPress = () => {
+    send({ type: 'BACK_SCREEN' })
+  };
 
   const handleNameChange = (text: string) => {
     setInputValue(text);
@@ -52,8 +57,11 @@ export default function NameScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Pressable onPress={handleBackButtonPress} style={styles.backButton}>
+        <FontAwesome5 name="chevron-left" style={styles.backButtonIcon} />
+      </Pressable>
       <View style={styles.formContainer}>
-        <Text style={styles.headerText}>What is your name?</Text>
+        <Text style={styles.headerText}>What is your gender?</Text>
         <TextInput
           style={styles.input}
           onChangeText={handleNameChange}
@@ -83,6 +91,18 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     width: '100%',
+  },
+  backButton: {
+    margin: 16,
+    backgroundColor: '#7E37D5',
+    borderRadius: 16,
+    width: 40,
+    padding: 8,
+  },
+  backButtonIcon: {
+    fontSize: 24,
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
   headerText: {
     fontSize: 24,

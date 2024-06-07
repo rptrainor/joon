@@ -1,3 +1,4 @@
+// app/(auth)/index.tsx
 import { useNavigation } from 'expo-router';
 import { Text, StyleSheet, SafeAreaView, TextInput, Pressable, View } from 'react-native';
 import { useEffect, useState, useCallback, useRef } from 'react';
@@ -27,8 +28,8 @@ export default function NameScreen() {
     debouncedSendName(text);
   };
 
-  const hanldePressNext = () => {
-    send({ type: 'NEXT_SCREEN' })
+  const handlePressNext = () => {
+    send({ type: 'NEXT_SCREEN' });
   };
 
   const debouncedSendName = useDebounce((text: string) => {
@@ -60,7 +61,7 @@ export default function NameScreen() {
           value={inputValue}
           placeholder='E.g. Kevin'
         />
-        <Pressable onPress={hanldePressNext} style={styles.button}>
+        <Pressable onPress={handlePressNext} style={styles.button}>
           <Text style={styles.buttonText}>Next</Text>
         </Pressable>
       </View>
@@ -90,7 +91,6 @@ const styles = StyleSheet.create({
     color: 'black',
     marginBottom: 12,
     textAlign: 'center',
-
   },
   input: {
     height: 40,

@@ -43,8 +43,8 @@ export default function GenderScreen() {
   useStateMachineNavigation();
 
   useEffect(() => {
-    console.log('index - context', state.context);
-    console.log('index - value', state.value);
+    console.log('gender-screen - context', state.context);
+    console.log('gender-screen - value', state.value);
   }, [state]);
 
   useEffect(() => {

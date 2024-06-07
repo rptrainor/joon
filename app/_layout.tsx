@@ -1,3 +1,4 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -7,15 +8,25 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { MachineProvider } from '@/contexts/MachineContext';
+export {
+  ErrorBoundary,
+} from 'expo-router';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+export const unstable_settings = {
+  initialRouteName: '(auth)',
+};
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+  const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    ...FontAwesome.font,
   });
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   useEffect(() => {
     if (loaded) {
@@ -27,15 +38,18 @@ export default function RootLayout() {
     return null;
   }
 
+  return <RootLayoutNav />;
+}
+
+function RootLayoutNav() {
+  const colorScheme = useColorScheme();
+
   return (
     <MachineProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="gender-screen" />
-          <Stack.Screen name="children-names-screen" />
-          <Stack.Screen name="login-details-screen" />
-          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
       </ThemeProvider>
     </MachineProvider>

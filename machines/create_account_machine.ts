@@ -1,12 +1,16 @@
 import { setup, assign, fromPromise } from "xstate";
 
+type GenderOptions = 'male' | 'female' | 'other';
+
 type CreateAccountProps = {
   name: string;
-  gender: string;
+  gender: GenderOptions;
   childrenNames: string[];
   email: string;
   password: string;
 };
+
+const GENDER_OPTIONS = ['male', 'female', 'other'];
 
 const createAccount = async ({ name, gender, childrenNames, email, password }: CreateAccountProps) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -25,13 +29,13 @@ export const machine = setup({
     context: {} as {
       name: string;
       email: string;
-      gender: string;
+      gender: GenderOptions;
       password: string;
       childrenNames: string[];
     },
     events: {} as
       | { type: 'SAVE_NAME'; name: string; }
-      | { type: 'SAVE_GENDER'; gender: string; }
+      | { type: 'SAVE_GENDER'; gender: GenderOptions; }
       | { type: 'SAVE_CHILDREN_NAMES'; childrenNames: string[]; }
       | { type: 'SAVE_EMAIL'; email: string; }
       | { type: 'SAVE_PASSWORD'; password: string; }
@@ -95,7 +99,7 @@ export const machine = setup({
   },
   guards: {
     isValidNameInContext: ({ event }) => event.type === 'SAVE_NAME' && event.name.length > 0,
-    isValidGenderInContext: ({ event }) => event.type === 'SAVE_GENDER' && event.gender.length > 0,
+    isValidGenderInContext: ({ event }) => event.type === 'SAVE_GENDER' && GENDER_OPTIONS.includes(event.gender),
     isValidChildrenNamesInContext: ({ event }) => event.type === 'SAVE_CHILDREN_NAMES' && event.childrenNames.length > 0,
     isValidEmailInContext: ({ event }) => event.type === 'SAVE_EMAIL' && event.email.length > 0,
     isValidPasswordInContext: ({ event }) => event.type === 'SAVE_PASSWORD' && event.password.length > 0,
@@ -104,7 +108,7 @@ export const machine = setup({
   context: {
     name: "",
     email: "",
-    gender: "",
+    gender: "other",
     password: "",
     childrenNames: [],
   },

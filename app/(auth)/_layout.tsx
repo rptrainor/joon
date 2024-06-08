@@ -12,6 +12,7 @@ export default function AuthLayout() {
       <Stack.Screen name="gender-screen" />
       <Stack.Screen name="children-names-screen" />
       <Stack.Screen name="login-details-screen" />
+      <Stack.Screen name="add-child" options={{ presentation: 'modal' }} />
     </Stack>
   );
 }

@@ -1,6 +1,6 @@
 import { setup, assign, fromPromise } from "xstate";
 
-type GenderOptions = 'male' | 'female' | 'other';
+export type GenderOptions = 'male' | 'female' | 'other';
 
 type CreateAccountProps = {
   name: string;
@@ -10,7 +10,7 @@ type CreateAccountProps = {
   password: string;
 };
 
-const GENDER_OPTIONS = ['male', 'female', 'other'];
+export const GENDER_OPTIONS = ['male', 'female', 'other'];
 
 const createAccount = async ({ name, gender, childrenNames, email, password }: CreateAccountProps) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));

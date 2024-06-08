@@ -5,6 +5,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 import { useSend } from '@/contexts/MachineContext';
 import { useStateMachineNavigation } from '@/hooks/useStateMachineNavigation';
+import { GENDER_OPTIONS } from '@/machines/create_account_machine';
 
 const useDebounce = (callback: (...args: any) => void, delay: number) => {
   const debounceTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -62,12 +63,17 @@ export default function GenderScreen() {
       </Pressable>
       <View style={styles.formContainer}>
         <Text style={styles.headerText}>What is your gender?</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={handleNameChange}
-          value={inputValue}
-          placeholder='E.g. Kevin'
-        />
+        <View style={styles.genderContainer}>
+          {Object.values(GENDER_OPTIONS).map((gender) => (
+            <Pressable
+              key={gender}
+              onPress={() => send({ type: 'SAVE_GENDER', gender })}
+              style={styles.genderButton}
+            >
+              <Text style={styles.backButtonIcon}>{gender}</Text>
+            </Pressable>
+          ))}
+        </View>
         <Pressable onPress={hanldePressNext} style={styles.button}>
           <Text style={styles.buttonText}>Next</Text>
         </Pressable>
@@ -91,6 +97,20 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     width: '100%',
+  },
+  genderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 2,
+    flexWrap: 'nowrap',
+    paddingHorizontal: 16,
+  },
+  genderButton: {
+    backgroundColor: '#DDDDDD',
+    borderRadius: 16,
+    padding: 8,
+    width: '30%',
   },
   backButton: {
     margin: 16,

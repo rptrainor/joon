@@ -4,7 +4,6 @@ import { Text, StyleSheet, SafeAreaView, TextInput, Pressable, View } from 'reac
 import { useEffect, useState, useCallback, useRef } from 'react';
 
 import { useSend } from '@/contexts/MachineContext';
-import { useStateMachineNavigation } from '@/hooks/useStateMachineNavigation';
 
 const useDebounce = (callback: (...args: any) => void, delay: number) => {
   const debounceTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -35,8 +34,6 @@ export default function NameScreen() {
   const debouncedSendName = useDebounce((text: string) => {
     send({ type: 'SAVE_NAME', name: text });
   }, 300);
-
-  useStateMachineNavigation();
 
   useEffect(() => {
     console.log('index - context', state.context);

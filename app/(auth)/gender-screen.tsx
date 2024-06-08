@@ -2,9 +2,7 @@ import { Text, StyleSheet, SafeAreaView, Pressable, View } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 import { useSend } from '@/contexts/MachineContext';
-
-type GenderOptions = 'male' | 'female' | 'other';
-const GENDER_OPTIONS: GenderOptions[] = ['male', 'female', 'other'];
+import { GENDER_OPTIONS } from '@/machines/create_account_machine';
 
 export default function GenderScreen() {
   const { send, state } = useSend();

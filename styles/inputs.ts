@@ -1,3 +1,5 @@
+import { Fontisto } from '@expo/vector-icons';
+
 import { StyleSheet } from 'react-native';
 import { spacing } from './spacing';
 import { colors } from './colors';
@@ -17,6 +19,7 @@ export const inputs = StyleSheet.create({
     fontSize: spacing.medium,
     padding: spacing.small,
     fontWeight: 'bold',
+    width: '100%',
   },
   baseButtonText: {
     fontSize: spacing.medium,

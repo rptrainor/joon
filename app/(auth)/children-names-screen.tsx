@@ -35,9 +35,9 @@ export default function ChildrenNamesScreen() {
         ) : null}
           <Pressable onPress={() => handleAddChild({ index: -1 })} style={[buttons.baseButton, styles.modalTriggerButton]}>
             <FontAwesome6 name="plus" size={18} color={colors.secondary} />
-            <Text style={[typography.baseButtonText, styles.modalTriggerButtonText]}>Add Child</Text>
+            <Text style={[typography.baseButtonText, styles.modalTriggerButtonText]}>{`Add ${state.context.childrenNames.length > 0 ? 'another child' : 'a child'}`}</Text>
           </Pressable>
-        <PrimaryButton onPress={handlePressNext}>
+        <PrimaryButton onPress={handlePressNext} disabled={!state.context.childrenNames.length}>
           Done
         </PrimaryButton>
       </View>

@@ -7,18 +7,7 @@ import { typography } from '@/styles/typography';
 import { inputs } from '@/styles/inputs';
 import { spacing } from '@/styles/spacing';
 import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
-
-const useDebounce = (callback: (...args: any) => void, delay: number) => {
-  const debounceTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
-  return useCallback((...args: any) => {
-    if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
-    }
-    debounceTimeout.current = setTimeout(() => {
-      callback(...args);
-    }, delay);
-  }, [callback, delay]);
-};
+import { useDebounce } from '@/hooks/useDebounce';
 
 export default function NameScreen() {
   const { send, state, handlePressNext } = useSend();

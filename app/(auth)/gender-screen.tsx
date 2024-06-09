@@ -1,32 +1,21 @@
 import { Text, StyleSheet, SafeAreaView, Pressable, View } from 'react-native';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 import { useSend } from '@/contexts/MachineContext';
 import { GENDER_OPTIONS } from '@/machines/create_account_machine';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { buttons } from '@/styles/buttons';
+import { BackButton } from '@/components/Buttons/BackButton';
+import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
 
 export default function GenderScreen() {
-  const { send, state } = useSend();
-
-  const handleBackButtonPress = () => {
-    send({ type: 'BACK_SCREEN' });
-  };
-
-  const hanldePressNext = () => {
-    send({ type: 'NEXT_SCREEN' });
-  };
+  const { send, state, handlePressNext, handleBackButtonPress } = useSend();
 
   const selectedGender = state.context.gender;
 
   return (
     <SafeAreaView style={containers.container}>
-      <View style={containers.headerContainer}>
-        <Pressable onPress={handleBackButtonPress} style={buttons.backButton}>
-          <FontAwesome5 name="chevron-left" style={typography.backButtonIcon} />
-        </Pressable>
-      </View>
+      <BackButton onPress={handleBackButtonPress} />
       <View style={containers.innerContainer}>
         <Text style={typography.headerText}>What is your gender?</Text>
         <View style={styles.genderContainer}>
@@ -48,10 +37,9 @@ export default function GenderScreen() {
             </Pressable>
           ))}
         </View>
-
-        <Pressable onPress={hanldePressNext} style={[buttons.baseButton, buttons.primaryButton]}>
-          <Text style={[buttons.baseButtonText, buttons.primaryButtonText]}>Next</Text>
-        </Pressable>
+        <PrimaryButton onPress={handlePressNext}>
+          Next
+        </PrimaryButton>
       </View>
     </SafeAreaView>
   );

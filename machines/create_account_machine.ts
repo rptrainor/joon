@@ -12,6 +12,11 @@ type CreateAccountProps = {
 
 export const GENDER_OPTIONS = ['male', 'female', 'other'];
 
+function hasDuplicates(arr: string[]): boolean {
+  const uniqueElements = new Set(arr);
+  return uniqueElements.size !== arr.length;
+}
+
 const createAccount = async ({ name, gender, childrenNames, email, password }: CreateAccountProps) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -98,11 +103,24 @@ export const machine = setup({
     }),
   },
   guards: {
-    isValidNameInContext: ({ event }) => event.type === 'SAVE_NAME' && event.name.length > 0,
-    isValidGenderInContext: ({ event }) => event.type === 'SAVE_GENDER' && GENDER_OPTIONS.includes(event.gender),
-    isValidChildrenNamesInContext: ({ event }) => event.type === 'SAVE_CHILDREN_NAMES' && event.childrenNames.length > 0,
-    isValidEmailInContext: ({ event }) => event.type === 'SAVE_EMAIL' && event.email.length > 0,
-    isValidPasswordInContext: ({ event }) => event.type === 'SAVE_PASSWORD' && event.password.length > 0,
+    isNameInEventValid: ({ event }) => event.type === 'SAVE_NAME' && typeof event.name === 'string',
+    isGenderInEventValid: ({ event }) => event.type === 'SAVE_GENDER' && GENDER_OPTIONS.includes(event.gender),
+
+    isChildNameInEventValid: ({ context, event }) => {
+      console.log('isChildNameInEventValid', { context, event });
+      return event.type === 'SAVE_CHILDREN_NAMES' && !hasDuplicates(event.childrenNames);
+    },
+
+    isEmailInEventValid: ({ event }) => event.type === 'SAVE_EMAIL' && typeof event.email === 'string',
+    isPasswordInEventValid: ({ event }) => event.type === 'SAVE_PASSWORD' && typeof event.password === 'string',
+    isValidNameInContext: ({ context }) => context.name.length > 0,
+    isValidGenderInContext: ({ context }) => GENDER_OPTIONS.includes(context.gender),
+
+    isValidChildNameInContext: ({ context }) => context.childrenNames.length > 0,
+
+    isValidEmailInContext: ({ context }) => context.email.length > 0,
+    isValidPasswordInContext: ({ context }) => context.password.length > 0,
+    isValidLoginDetailsInContext: ({ context }) =>  context.email.length > 0 && context.password.length > 0,
   },
 }).createMachine({
   context: {
@@ -110,17 +128,7 @@ export const machine = setup({
     email: "",
     gender: "other",
     password: "",
-    childrenNames: [
-      // "Kevin",
-      // "John",
-      // "Jane",
-      // "Mary",
-      // "David",
-      // "James",
-      // "Michael",
-      // "Robert",
-      // "William",
-    ],
+    childrenNames: [],
   },
   id: "CREATE_ACCOUNT_MACHINE",
   initial: "NAME_SCREEN",
@@ -128,6 +136,7 @@ export const machine = setup({
     NAME_SCREEN: {
       on: {
         SAVE_NAME: {
+          guard: 'isNameInEventValid',
           actions: {
             type: "storeNameInContext",
             params: {
@@ -136,6 +145,7 @@ export const machine = setup({
           },
         },
         NEXT_SCREEN: {
+          guard: 'isValidNameInContext',
           target: "GENDER_SCREEN",
         },
       },
@@ -144,6 +154,7 @@ export const machine = setup({
       on: {
         SAVE_GENDER: {
           actions: {
+            guard: 'isGenderInEventValid',
             type: "storeGenderInContext",
             params: {
               gender: "string",
@@ -154,24 +165,29 @@ export const machine = setup({
           target: "NAME_SCREEN",
         },
         NEXT_SCREEN: {
+          guard: 'isValidGenderInContext',
           target: "CHILDREN_NAMES_SCREEN",
         },
       },
     },
     CHILDREN_NAMES_SCREEN: {
       on: {
-        SAVE_CHILDREN_NAMES: {
-          actions: {
-            type: "storeChildrenNamesInContext",
-            params: {
-              childrenNames: [],
+        SAVE_CHILDREN_NAMES: [
+          {
+            guard: 'isChildNameInEventValid',
+            actions: {
+              type: "storeChildrenNamesInContext",
+              params: {
+                childrenNames: [],
+              },
             },
           },
-        },
+        ],
         BACK_SCREEN: {
           target: "GENDER_SCREEN",
         },
         NEXT_SCREEN: {
+          guard: 'isValidChildNameInContext',
           target: "LOGIN_DETAILS_SCREEN",
         },
       },
@@ -180,6 +196,7 @@ export const machine = setup({
       on: {
         SAVE_EMAIL: {
           actions: {
+            guard: 'isEmailInEventValid',
             type: "storeEmailInContext",
             params: {
               email: "string",
@@ -188,6 +205,7 @@ export const machine = setup({
         },
         SAVE_PASSWORD: {
           actions: {
+            guard: 'isPasswordInEventValid',
             type: "storePasswordInContext",
             params: {
               password: "string",
@@ -198,6 +216,7 @@ export const machine = setup({
           target: "CHILDREN_NAMES_SCREEN",
         },
         CREATE_ACCOUNT: {
+          guard: 'isValidLoginDetailsInContext',
           target: "CREATING_ACCOUNT",
         },
       },

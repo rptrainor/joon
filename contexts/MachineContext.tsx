@@ -3,7 +3,7 @@ import { useMachine } from '@xstate/react';
 
 import { machine } from '@/machines/create_account_machine';
 
-const SendContext = createContext<{ state: any, send: any } | undefined>(undefined);
+const SendContext = createContext<{ state: any, send: any, handleBackButtonPress: () => void, handlePressNext: () => void } | undefined>(undefined);
 
 interface MachineProviderProps {
   children: ReactNode;
@@ -12,8 +12,15 @@ interface MachineProviderProps {
 export const MachineProvider: React.FC<MachineProviderProps> = ({ children }) => {
   const [state, send] = useMachine(machine);
 
+  const handleBackButtonPress = () => {
+    send({ type: 'BACK_SCREEN' });
+  };
+
+  const handlePressNext = () => {
+    send({ type: 'NEXT_SCREEN' });
+  };
   return (
-    <SendContext.Provider value={{ state, send }}>
+    <SendContext.Provider value={{ state, send, handleBackButtonPress, handlePressNext }}>
       {children}
     </SendContext.Provider>
   );

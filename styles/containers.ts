@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { spacing } from './spacing';
-import { colors } from './colors';
 
 export const containers = StyleSheet.create({
   container: {
@@ -12,7 +11,6 @@ export const containers = StyleSheet.create({
   },
   headerContainer: {
     height: spacing.xlarge,
-    paddingHorizontal: spacing.medium,
   },
   innerContainer: {
     flex: 1,

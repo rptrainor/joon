@@ -16,6 +16,7 @@ export const inputs = StyleSheet.create({
     flexDirection: 'row',
     fontSize: spacing.medium,
     padding: spacing.small,
+    fontWeight: 'bold',
   },
   baseButtonText: {
     fontSize: spacing.medium,

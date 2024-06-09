@@ -1,7 +1,13 @@
 import { useNavigation } from 'expo-router';
-import { Text, StyleSheet, SafeAreaView, TextInput, Pressable, View } from 'react-native';
+import { Text, SafeAreaView, TextInput, Pressable, View } from 'react-native';
 import { useState } from 'react';
 import { useSend } from '@/contexts/MachineContext';
+import { spacing } from '@/styles/spacing';
+import { containers } from '@/styles/containers';
+import { typography } from '@/styles/typography';
+import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
+import { buttons } from '@/styles/buttons';
+import { inputs } from '@/styles/inputs';
 
 export default function AddChildScreen() {
   const { send, state } = useSend();
@@ -9,6 +15,7 @@ export default function AddChildScreen() {
   const [childName, setChildName] = useState('');
 
   const handleAddChild = () => {
+    console.log('handleAddChild', childName);
     if (childName.length === 0) {
       navigation.goBack();
       return;
@@ -18,60 +25,23 @@ export default function AddChildScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.formContainer}>
-        <Text style={styles.headerText}>Add Child</Text>
+    <SafeAreaView style={containers.container}>
+      <View style={[containers.innerContainer, { paddingTop: spacing.xlarge }]}>
+        <Text style={typography.headerText}>Add Child</Text>
         <TextInput
-          style={styles.input}
+          style={inputs.baseInput}
           placeholder="Enter child's name"
           value={childName}
           onChangeText={setChildName}
+          autoFocus
         />
-        <Pressable onPress={handleAddChild} style={styles.button}>
-          <Text style={styles.buttonText}>Add</Text>
+        <PrimaryButton onPress={handleAddChild} disabled={!childName.length}>
+          Add
+        </PrimaryButton>
+        <Pressable onPress={navigation.goBack} style={[buttons.baseButton, buttons.secondaryButton]}>
+          <Text style={[typography.baseButtonText, buttons.secondaryButtonText]}>Cancel</Text>
         </Pressable>
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 16,
-  },
-  formContainer: {
-    width: '100%',
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'black',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    padding: 10,
-    borderRadius: 16,
-    fontSize: 18,
-    backgroundColor: '#E6E6E6',
-    color: 'black',
-  },
-  button: {
-    backgroundColor: '#0a7ea4',
-    height: 40,
-    margin: 12,
-    padding: 10,
-    borderRadius: 32,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-});

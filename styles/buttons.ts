@@ -27,10 +27,18 @@ export const buttons = StyleSheet.create({
   primaryButtonText: {
     color: colors.white,
   },
+  secondaryButton: {
+    borderColor: colors.secondary,
+    color: colors.secondary,
+    borderWidth: 1,
+  },
+  secondaryButtonText: {
+    color: colors.secondary,
+  },
   backButton: {
     marginHorizontal: 16,
     backgroundColor: '#7E37D5',
-    borderRadius: 16,
+    borderRadius: spacing.large,
     width: 40,
     padding: 8,
     top: 0,

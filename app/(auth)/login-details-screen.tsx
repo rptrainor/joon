@@ -1,21 +1,19 @@
-import React, { useEffect } from 'react';
-import { Text, StyleSheet, SafeAreaView, TextInput, View, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, StyleSheet, SafeAreaView, TextInput, View, Pressable, TouchableOpacity } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
-
 import { useSend } from '@/contexts/MachineContext';
 import { BackButton } from '@/components/Buttons/BackButton';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
-import { inputs } from '@/styles/inputs';
 import { useDebounce } from '@/hooks/useDebounce';
 import { spacing } from '@/styles/spacing';
 import { colors } from '@/styles/colors';
-import { buttons } from '@/styles/buttons';
 
 export default function LoginDetailsScreen() {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { send, state, handleBackButtonPress, handlePressNext } = useSend();
 
   const handleEmailChange = (text: string) => {
@@ -48,43 +46,48 @@ export default function LoginDetailsScreen() {
 
         <View style={styles.inputGroupContainer}>
           <Text style={typography.baseButtonText}>Email</Text>
-          <View style={inputs.baseInput}>
+          <View style={styles.inputWithIcon}>
             <Foundation name="mail" style={styles.inputIcon} color={colors.darkGray} />
             <TextInput
               aria-label='email'
               keyboardAppearance='light'
               enablesReturnKeyAutomatically
-              style={inputs.baseInput}
+              style={styles.textInput}
               onChangeText={handleEmailChange}
               value={email}
-
               placeholder='email@example.com'
+              keyboardType='email-address'
+              autoCapitalize='none'
+              autoCorrect={false}
             />
           </View>
         </View>
 
-
         <View style={styles.inputGroupContainer}>
           <Text style={typography.baseButtonText}>Password</Text>
-          <View style={inputs.baseInput}>
+          <View style={styles.inputWithIcon}>
             <Foundation name="unlock" style={styles.inputIcon} color={colors.darkGray} />
             <TextInput
               aria-label='password'
               enablesReturnKeyAutomatically
-              style={inputs.baseInput}
+              style={styles.textInput}
               onChangeText={handlePasswordChange}
               value={password}
-              placeholder='email@example.com'
+              placeholder='Password'
+              secureTextEntry={!showPassword}
+              autoCapitalize='none'
+              autoCorrect={false}
             />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <FontAwesome6 name={showPassword ? 'eye-slash' : 'eye'} style={styles.inputIcon} />
+            </TouchableOpacity>
           </View>
         </View>
 
-        <Pressable onPress={handlePressNext} style={{ borderRadius: spacing.large, opacity: !state.context.email.length || !state.context.password.length ? 0.4 : 1 }}>
-          <View style={styles.submitButton}>
-            <Text style={[typography.baseButtonText, typography.buttonText, styles.submitButtonText]}>
-              Sign up
-            </Text>
-          </View>
+        <Pressable onPress={handlePressNext} style={[styles.submitButton, (!state.context.email.length || !state.context.password.length) && styles.disabledButton]}>
+          <Text style={[typography.baseButtonText, typography.buttonText, styles.submitButtonText]}>
+            Sign up
+          </Text>
           <View style={styles.submitButtonIcon}>
             <FontAwesome6 name="play" size={24} style={[typography.baseButtonText, typography.buttonText]} />
           </View>
@@ -101,13 +104,27 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     gap: spacing.small,
+    marginBottom: spacing.medium,
+  },
+  inputWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.lightGray,
+    borderRadius: spacing.small,
+    paddingLeft: spacing.small,
   },
   inputIcon: {
     fontSize: spacing.medium,
     color: colors.darkGray,
-    textAlign: 'center',
-    fontWeight: 'bold',
     paddingLeft: spacing.small,
+    paddingRight: spacing.small,
+  },
+  textInput: {
+    flex: 1,
+    height: spacing.xlarge,
+    paddingHorizontal: spacing.small,
+    fontSize: spacing.medium,
   },
   submitButton: {
     backgroundColor: colors.secondary,
@@ -117,6 +134,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: spacing.large,
     height: spacing.xlarge,
+    marginTop: spacing.large,
+  },
+  disabledButton: {
+    opacity: 0.4,
   },
   submitButtonText: {
     flexGrow: 1,
@@ -133,5 +154,6 @@ const styles = StyleSheet.create({
     margin: 0,
     position: 'absolute',
     right: 0,
-  }
+  },
 });
+

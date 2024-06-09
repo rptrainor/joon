@@ -105,12 +105,7 @@ export const machine = setup({
   guards: {
     isNameInEventValid: ({ event }) => event.type === 'SAVE_NAME' && typeof event.name === 'string',
     isGenderInEventValid: ({ event }) => event.type === 'SAVE_GENDER' && GENDER_OPTIONS.includes(event.gender),
-
-    isChildNameInEventValid: ({ context, event }) => {
-      console.log('isChildNameInEventValid', { context, event });
-      return event.type === 'SAVE_CHILDREN_NAMES' && !hasDuplicates(event.childrenNames);
-    },
-
+    isChildNameInEventValid: ({ event }) => event.type === 'SAVE_CHILDREN_NAMES' && !hasDuplicates(event.childrenNames),
     isEmailInEventValid: ({ event }) => event.type === 'SAVE_EMAIL' && typeof event.email === 'string',
     isPasswordInEventValid: ({ event }) => event.type === 'SAVE_PASSWORD' && typeof event.password === 'string',
     isValidNameInContext: ({ context }) => context.name.length > 0,

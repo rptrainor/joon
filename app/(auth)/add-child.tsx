@@ -1,6 +1,7 @@
-import { useNavigation } from 'expo-router';
+import { useNavigation, useLocalSearchParams } from 'expo-router';
 import { Text, SafeAreaView, TextInput, Pressable, View } from 'react-native';
 import { useState } from 'react';
+
 import { useSend } from '@/contexts/MachineContext';
 import { spacing } from '@/styles/spacing';
 import { containers } from '@/styles/containers';
@@ -12,15 +13,24 @@ import { inputs } from '@/styles/inputs';
 export default function AddChildScreen() {
   const { send, state } = useSend();
   const navigation = useNavigation();
-  const [childName, setChildName] = useState('');
+  const { index } = useLocalSearchParams<{ index: string }>();
+
+  const [childName, setChildName] = useState(state.context.childrenNames[parseInt(index ?? '-1')] ?? '');
 
   const handleAddChild = () => {
-    console.log('handleAddChild', childName);
-    if (childName.length === 0) {
+    if (index === undefined || (childName.length === 0 && index === '-1')) {
       navigation.goBack();
       return;
     }
-    send({ type: 'SAVE_CHILDREN_NAMES', childrenNames: [...state.context.childrenNames, childName] });
+    let updatedChildrenNames = [...state.context.childrenNames];
+    if (index === '-1') {
+      updatedChildrenNames.push(childName);
+    } else if (childName.length === 0) {
+      updatedChildrenNames.splice(parseInt(index), 1);
+    } else {
+      updatedChildrenNames[parseInt(index)] = childName;
+    }
+    send({ type: 'SAVE_CHILDREN_NAMES', childrenNames: updatedChildrenNames });
     navigation.goBack();
   };
 
@@ -35,8 +45,8 @@ export default function AddChildScreen() {
           onChangeText={setChildName}
           autoFocus
         />
-        <PrimaryButton onPress={handleAddChild} disabled={!childName.length}>
-          Add
+        <PrimaryButton onPress={handleAddChild} disabled={!childName.length && index === '-1'}>
+          {index === '-1' ? 'Add name' : childName.length > 0 ? 'Change name' : 'Remove name'}
         </PrimaryButton>
         <Pressable onPress={navigation.goBack} style={[buttons.baseButton, buttons.secondaryButton]}>
           <Text style={[typography.baseButtonText, buttons.secondaryButtonText]}>Cancel</Text>

@@ -1,4 +1,4 @@
-import { Text, SafeAreaView, TextInput, View } from 'react-native';
+import { Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useState } from 'react';
 
 import { useSend } from '@/contexts/MachineContext';
@@ -24,7 +24,9 @@ export default function NameScreen() {
 
   return (
     <SafeAreaView style={[containers.container]}>
-      <View style={[containers.innerContainer, { paddingTop: spacing.xlarge }]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={[containers.innerContainer, { paddingTop: spacing.xlarge }]}>
         <Text style={typography.headerText}>What is your name?</Text>
         <TextInput
           style={inputs.baseInput}
@@ -33,9 +35,9 @@ export default function NameScreen() {
           placeholder='E.g. Kevin'
         />
         <PrimaryButton onPress={handlePressNext} disabled={!state.context.name.length}>
-        Next
+          Next
         </PrimaryButton>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, SafeAreaView, TextInput, View, Pressable, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, SafeAreaView, TextInput, View, Pressable, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import CryptoJS from 'crypto-js';
@@ -80,7 +80,9 @@ export default function LoginDetailsScreen() {
   return (
     <SafeAreaView style={[containers.container]}>
       <BackButton onPress={handleBackButtonPress} />
-      <View style={containers.innerContainer}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={containers.innerContainer}>
         <Text style={typography.headerText}>Create your account</Text>
 
         <View style={styles.inputGroupContainer}>
@@ -143,7 +145,7 @@ export default function LoginDetailsScreen() {
             <Text style={styles.termsLinkText}>Terms of Service and Privacy Policy</Text>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

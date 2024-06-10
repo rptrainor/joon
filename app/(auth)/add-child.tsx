@@ -1,5 +1,5 @@
 import { useNavigation, useLocalSearchParams } from 'expo-router';
-import { Text, SafeAreaView, TextInput, Pressable, View } from 'react-native';
+import { Text, SafeAreaView, TextInput, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import { useState } from 'react';
 
 import { useSend } from '@/contexts/MachineContext';
@@ -36,7 +36,9 @@ export default function AddChildScreen() {
 
   return (
     <SafeAreaView style={containers.container}>
-      <View style={[containers.innerContainer, { paddingTop: spacing.xlarge }]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={[containers.innerContainer, { paddingTop: spacing.xlarge }]}>
         <Text style={typography.headerText}>Add Child</Text>
         <TextInput
           style={inputs.baseInput}
@@ -51,7 +53,7 @@ export default function AddChildScreen() {
         <Pressable onPress={navigation.goBack} style={[buttons.baseButton, buttons.secondaryButton]}>
           <Text style={[typography.baseButtonText, buttons.secondaryButtonText]}>Cancel</Text>
         </Pressable>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

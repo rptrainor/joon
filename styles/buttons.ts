@@ -41,7 +41,7 @@ export const buttons = StyleSheet.create({
     borderRadius: spacing.large,
     width: 40,
     padding: 8,
-    top: 0,
+    top: 8,
     left: 0,
   },
 });

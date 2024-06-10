@@ -22,6 +22,7 @@ export default function LoginDetailsScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const { send, handleBackButtonPress, handlePressNext } = useSend();
 
@@ -74,7 +75,7 @@ export default function LoginDetailsScreen() {
     send({ type: 'SAVE_PASSWORD', password: hashedPassword });
   }, 300);
 
-  const isNextButtonDisabled = !email || !password || !!errors.email || !!errors.password;
+  const isNextButtonDisabled = !email || !password || !!errors.email || !!errors.password || !agreeToTerms;
 
   return (
     <SafeAreaView style={[containers.container]}>
@@ -129,29 +130,83 @@ export default function LoginDetailsScreen() {
             Sign up
           </Text>
           <View style={styles.submitButtonIcon}>
-            <FontAwesome6 name="play" size={24} style={[typography.baseButtonText, typography.buttonText]} />
+            <FontAwesome6 name="play" size={12} style={[typography.baseButtonText, typography.buttonText]} />
           </View>
         </Pressable>
+
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: spacing.small }}>
+          <TouchableOpacity onPress={() => setAgreeToTerms(!agreeToTerms)} style={[styles.termsButton, agreeToTerms ? styles.checkedTermsIcon : styles.uncheckedTermsIcon]}>
+            <FontAwesome6 name="check" style={[styles.termsButtonIconText, agreeToTerms ? styles.checkedTermsIcon : styles.uncheckedTermsIcon]} />
+          </TouchableOpacity>
+          <View>
+            <Text style={styles.termsText}>I've read and accepted</Text>
+            <Text style={styles.termsLinkText}>Terms of Service and Privacy Policy</Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  termsButton: {
+    backgroundColor: '#7E37D5',
+    borderRadius: spacing.large,
+    width: 20,
+    padding: 4,
+    top: 0,
+    left: 0,
+    borderWidth: 1,
+    borderColor: colors.secondary
+  },
+  termsButtonIconText: {
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  termsIcon: {
+    fontSize: spacing.medium,
+    color: colors.white,
+    borderRadius: spacing.large,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    margin: 0,
+    right: 0,
+  },
+  termsText: {
+    fontSize: spacing.small,
+    fontWeight: 'bold',
+    color: colors.darkGray,
+  },
+  termsLinkText: {
+    fontSize: spacing.small,
+    fontWeight: 'bold',
+    color: colors.secondary,
+  },
+  checkedTermsIcon: {
+    backgroundColor: colors.secondary,
+    color: colors.white,
+
+  },
+  uncheckedTermsIcon: {
+    backgroundColor: colors.background,
+    color: colors.text,
+  },
   inputGroupContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
     gap: spacing.small,
-    marginBottom: spacing.medium,
   },
   inputWithIcon: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: colors.lightGray,
-    borderRadius: spacing.small,
+    backgroundColor: colors.lightGray,
+    borderRadius: spacing.large,
     paddingLeft: spacing.small,
   },
   inputIcon: {
@@ -165,6 +220,8 @@ const styles = StyleSheet.create({
     height: spacing.xlarge,
     paddingHorizontal: spacing.small,
     fontSize: spacing.medium,
+    backgroundColor: colors.lightGray,
+    borderRadius: spacing.large,
   },
   errorText: {
     color: colors.error,
@@ -178,7 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: spacing.large,
     height: spacing.xlarge,
-    marginTop: spacing.large,
+    marginTop: spacing.medium,
   },
   disabledButton: {
     opacity: 0.4,
@@ -190,7 +247,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondaryDark,
     minHeight: spacing.xlarge,
     minWidth: spacing.xlarge,
-    borderRadius: spacing.xlarge,
+    borderRadius: spacing.large,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

@@ -106,29 +106,13 @@ export const machine = setup({
     isNameInEventValid: ({ event }) => event.type === 'SAVE_NAME' && typeof event.name === 'string',
     isGenderInEventValid: ({ event }) => event.type === 'SAVE_GENDER' && GENDER_OPTIONS.includes(event.gender),
     isChildNameInEventValid: ({ event }) => event.type === 'SAVE_CHILDREN_NAMES' && !hasDuplicates(event.childrenNames),
-    isEmailInEventValid: ({ event }) => {
-
-      console.log('isEmailInEventValid', event);
-      return event.type === 'SAVE_EMAIL' && typeof event.email === 'string'
-    },
-    isPasswordInEventValid: ({ event }) => {
-
-      console.log('isPasswordInEventValid', event);
-      return event.type === 'SAVE_PASSWORD' && typeof event.password === 'string'
-    },
+    isEmailInEventValid: ({ event }) => event.type === 'SAVE_EMAIL' && typeof event.email === 'string',
+    isPasswordInEventValid: ({ event }) => event.type === 'SAVE_PASSWORD' && typeof event.password === 'string',
     isValidNameInContext: ({ context }) => context.name.length > 0,
     isValidGenderInContext: ({ context }) => GENDER_OPTIONS.includes(context.gender),
-
     isValidChildNameInContext: ({ context }) => context.childrenNames.length > 0,
-
-    isValidEmailInContext: ({ context }) => {
-      console.log('isValidEmailInContext', context);
-      return context.email.length > 0},
-    isValidPasswordInContext: ({ context }) => {
-
-      console.log('isValidPasswordInContext', context);
-      return context.password.length > 0
-    },
+    isValidEmailInContext: ({ context }) => context.email.length > 0,
+    isValidPasswordInContext: ({ context }) => context.password.length > 0,
     isValidLoginDetailsInContext: ({ context }) =>  context.email.length > 0 && context.password.length > 0,
   },
 }).createMachine({

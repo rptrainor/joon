@@ -18,7 +18,7 @@ export const containers = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'flex-start',
     width: '100%',
-    marginTop: '30%',
+    marginTop: '20%',
     paddingHorizontal: spacing.medium,
     gap: spacing.medium,
   },

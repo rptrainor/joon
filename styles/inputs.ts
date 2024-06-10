@@ -1,5 +1,3 @@
-import { Fontisto } from '@expo/vector-icons';
-
 import { StyleSheet } from 'react-native';
 import { spacing } from './spacing';
 import { colors } from './colors';

@@ -20,12 +20,13 @@ const loginSchema = z.object({
 });
 
 export default function LoginDetailsScreen() {
-  const [email, setEmail] = useState('');
+  const { send, handleBackButtonPress, state } = useSend();
+
+  const [email, setEmail] = useState(state.context.email);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-  const { send, handleBackButtonPress } = useSend();
 
   const handleSubmit = () => {
     send({ type: 'CREATE_ACCOUNT' });
@@ -105,6 +106,7 @@ export default function LoginDetailsScreen() {
               keyboardType='email-address'
               autoCapitalize='none'
               autoCorrect={false}
+              placeholderTextColor={colors.placeholder}
             />
           </View>
           {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
@@ -124,6 +126,7 @@ export default function LoginDetailsScreen() {
               secureTextEntry={!showPassword}
               autoCapitalize='none'
               autoCorrect={false}
+              placeholderTextColor={colors.placeholder}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <FontAwesome6 name={showPassword ? 'eye-slash' : 'eye'} style={styles.inputIcon} />
@@ -231,6 +234,7 @@ const styles = StyleSheet.create({
     fontSize: spacing.medium,
     backgroundColor: colors.lightGray,
     borderRadius: spacing.large,
+    fontWeight: 'bold',
   },
   errorText: {
     color: colors.error,

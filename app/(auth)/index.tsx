@@ -8,6 +8,7 @@ import { inputs } from '@/styles/inputs';
 import { spacing } from '@/styles/spacing';
 import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
 import { useDebounce } from '@/hooks/useDebounce';
+import { colors } from '@/styles/colors';
 
 export default function NameScreen() {
   const { send, state, handlePressNext } = useSend();
@@ -33,7 +34,8 @@ export default function NameScreen() {
           onChangeText={handleNameChange}
           value={inputValue}
           placeholder='E.g. Kevin'
-        />
+          placeholderTextColor={colors.placeholder}
+          />
         <PrimaryButton onPress={handlePressNext} disabled={!state.context.name.length}>
           Next
         </PrimaryButton>

@@ -1,5 +1,5 @@
 import { Text, SafeAreaView, TextInput, View } from 'react-native';
-import { useState, useCallback, useRef } from 'react';
+import { useState } from 'react';
 
 import { useSend } from '@/contexts/MachineContext';
 import { containers } from '@/styles/containers';
@@ -33,7 +33,7 @@ export default function NameScreen() {
           placeholder='E.g. Kevin'
         />
         <PrimaryButton onPress={handlePressNext} disabled={!state.context.name.length}>
-          Next
+        Next
         </PrimaryButton>
       </View>
     </SafeAreaView>

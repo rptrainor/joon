@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Text, StyleSheet, SafeAreaView, TextInput, View, Pressable, TouchableOpacity } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
+import CryptoJS from 'crypto-js';
+import z from 'zod';
+
 import { useSend } from '@/contexts/MachineContext';
 import { BackButton } from '@/components/Buttons/BackButton';
 import { containers } from '@/styles/containers';
@@ -10,33 +13,68 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { spacing } from '@/styles/spacing';
 import { colors } from '@/styles/colors';
 
+const loginSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
+});
+
 export default function LoginDetailsScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { send, state, handleBackButtonPress, handlePressNext } = useSend();
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const { send, handleBackButtonPress, handlePressNext } = useSend();
+
+  const validateEmail = (text: string) => {
+    try {
+      loginSchema.parse({ email: text, password });
+      setErrors(prevErrors => ({ ...prevErrors, email: undefined }));
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const emailError = error.errors.find(err => err.path.includes('email'))?.message;
+        setErrors(prevErrors => ({ ...prevErrors, email: emailError }));
+        return false;
+      }
+    }
+  };
+
+  const validatePassword = (text: string) => {
+    try {
+      loginSchema.parse({ email, password: text });
+      setErrors(prevErrors => ({ ...prevErrors, password: undefined }));
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const passwordError = error.errors.find(err => err.path.includes('password'))?.message;
+        setErrors(prevErrors => ({ ...prevErrors, password: passwordError }));
+        return false;
+      }
+    }
+  };
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
-    debouncedSendEmail(text);
+    validateEmail(text)
+    debouncedSendEmail(text)
   };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    debouncedSendPassword(text);
+    validatePassword(text)
+    const hashedPassword = CryptoJS.SHA256(text).toString();
+    debouncedSendPassword(hashedPassword);
   };
 
-  const debouncedSendEmail = useDebounce((text: string) => {
-    send({ type: 'SAVE_EMAIL', email: text });
+  const debouncedSendEmail = useDebounce((email: string) => {
+    send({ type: 'SAVE_EMAIL', email });
   }, 300);
 
-  const debouncedSendPassword = useDebounce((text: string) => {
-    send({ type: 'SAVE_PASSWORD', password: text });
+  const debouncedSendPassword = useDebounce((hashedPassword: string) => {
+    send({ type: 'SAVE_PASSWORD', password: hashedPassword });
   }, 300);
 
-  useEffect(() => {
-    console.log(state.context.email, state.context.password);
-  }, [state.context.email, state.context.password]);
+  const isNextButtonDisabled = !email || !password || !!errors.email || !!errors.password;
 
   return (
     <SafeAreaView style={[containers.container]}>
@@ -61,6 +99,7 @@ export default function LoginDetailsScreen() {
               autoCorrect={false}
             />
           </View>
+          {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
         </View>
 
         <View style={styles.inputGroupContainer}>
@@ -82,9 +121,10 @@ export default function LoginDetailsScreen() {
               <FontAwesome6 name={showPassword ? 'eye-slash' : 'eye'} style={styles.inputIcon} />
             </TouchableOpacity>
           </View>
+          {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
         </View>
 
-        <Pressable onPress={handlePressNext} style={[styles.submitButton, (!state.context.email.length || !state.context.password.length) && styles.disabledButton]}>
+        <Pressable onPress={handlePressNext} style={[styles.submitButton, isNextButtonDisabled && styles.disabledButton]}>
           <Text style={[typography.baseButtonText, typography.buttonText, styles.submitButtonText]}>
             Sign up
           </Text>
@@ -126,6 +166,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.small,
     fontSize: spacing.medium,
   },
+  errorText: {
+    color: colors.error,
+    marginTop: spacing.small,
+  },
   submitButton: {
     backgroundColor: colors.secondary,
     display: 'flex',
@@ -156,4 +200,3 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
-

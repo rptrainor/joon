@@ -8,5 +8,6 @@ export const colors = {
   text: '#333333',
   lightGray: '#E0E0E0',
   darkGray: '#666666',
+  error: '#FF0000',
 };
 

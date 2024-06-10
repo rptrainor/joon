@@ -3,13 +3,13 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { router } from 'expo-router';
 
 import { containers } from '@/styles/containers';
-import { BackButton } from '@/components/Buttons/BackButton';
+import BackButton from '@/components/Buttons/BackButton';
 import { colors } from '@/styles/colors';
 import  PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { typography } from '@/styles/typography';
 import { buttons } from '@/styles/buttons';
 import { useSend } from '@/contexts/MachineContext';
-import { ListItemButton } from '@/components/ListItemButton';
+import ListItemButton from '@/components/ListItemButton';
 
 export default function ChildrenNamesScreen() {
   const { handleBackButtonPress, state, handlePressNext } = useSend();
@@ -20,7 +20,7 @@ export default function ChildrenNamesScreen() {
 
   return (
     <SafeAreaView style={containers.container}>
-      <BackButton onPress={handleBackButtonPress} />
+      <BackButton onPress={handleBackButtonPress} testID='back-button' />
       <View style={containers.innerContainer}>
         <Text style={typography.headerText}>Add your children</Text>
         {state.context.childrenNames && state.context.childrenNames.length > 0 ? (
@@ -37,7 +37,7 @@ export default function ChildrenNamesScreen() {
             <FontAwesome6 name="plus" size={18} color={colors.secondary} />
             <Text style={[typography.baseButtonText, styles.modalTriggerButtonText]}>{`Add ${state.context.childrenNames.length > 0 ? 'another child' : 'a child'}`}</Text>
           </Pressable>
-        <PrimaryButton onPress={handlePressNext} disabled={!state.context.childrenNames.length}>
+        <PrimaryButton onPress={handlePressNext} disabled={!state.context.childrenNames.length} testID='next-button'>
           Done
         </PrimaryButton>
       </View>

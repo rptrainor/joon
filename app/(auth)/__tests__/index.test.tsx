@@ -3,14 +3,12 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react-nativ
 import NameScreen from '@/app/(auth)/index';
 import { useSend } from '@/contexts/MachineContext';
 
-// Mock the MachineContext
 jest.mock('@/contexts/MachineContext', () => ({
   useSend: jest.fn(),
 }));
 
 jest.mock('@/components/Buttons/PrimaryButton', () => 'PrimaryButton');
 
-// Mock the useDebounce hook
 jest.mock('@/hooks/useDebounce', () => ({
   useDebounce: jest.fn((fn) => fn),
 }));

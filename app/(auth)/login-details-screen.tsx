@@ -7,7 +7,7 @@ import z from 'zod';
 import { Link } from 'expo-router';
 
 import { useSend } from '@/contexts/MachineContext';
-import { BackButton } from '@/components/Buttons/BackButton';
+import BackButton from '@/components/Buttons/BackButton';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { useDebounce } from '@/hooks/useDebounce';

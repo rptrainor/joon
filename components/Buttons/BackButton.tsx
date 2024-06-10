@@ -5,7 +5,7 @@ import { buttons } from "@/styles/buttons";
 import { containers } from "@/styles/containers";
 import { typography } from "@/styles/typography";
 
-export function BackButton(props: PressableProps) {
+function BackButton(props: PressableProps) {
   return (
     <View style={containers.headerContainer}>
       <Pressable {...props} style={buttons.backButton}>
@@ -14,3 +14,5 @@ export function BackButton(props: PressableProps) {
     </View>
   );
 }
+
+export default BackButton;

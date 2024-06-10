@@ -19,14 +19,15 @@ function hasDuplicates(arr: string[]): boolean {
 
 const createAccount = async ({ name, gender, childrenNames, email, password }: CreateAccountProps) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  return {
+  const data ={
     name,
     gender,
     childrenNames,
     email,
     password,
-  };
+  }
+  console.log('createAccount', data);
+  return data;
 };
 
 export const machine = setup({
@@ -64,7 +65,7 @@ export const machine = setup({
     storeNameInContext: assign({
       name: ({ context, event }) => {
         if (event.type === 'SAVE_NAME') {
-          return event.name;
+          return event.name.trim();
         }
         return context.name;
       },

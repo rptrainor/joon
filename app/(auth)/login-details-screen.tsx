@@ -4,6 +4,7 @@ import { Foundation } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import CryptoJS from 'crypto-js';
 import z from 'zod';
+import { Link } from 'expo-router';
 
 import { useSend } from '@/contexts/MachineContext';
 import { BackButton } from '@/components/Buttons/BackButton';
@@ -24,7 +25,11 @@ export default function LoginDetailsScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-  const { send, handleBackButtonPress, handlePressNext } = useSend();
+  const { send, handleBackButtonPress } = useSend();
+
+  const handleSubmit = () => {
+    send({ type: 'CREATE_ACCOUNT' });
+  };
 
   const validateEmail = (text: string) => {
     try {
@@ -127,7 +132,7 @@ export default function LoginDetailsScreen() {
           {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
         </View>
 
-        <Pressable onPress={handlePressNext} style={[styles.submitButton, isNextButtonDisabled && styles.disabledButton]}>
+        <Pressable onPress={handleSubmit} style={[styles.submitButton, isNextButtonDisabled && styles.disabledButton]}>
           <Text style={[typography.baseButtonText, typography.buttonText, styles.submitButtonText]}>
             Sign up
           </Text>
@@ -142,7 +147,9 @@ export default function LoginDetailsScreen() {
           </TouchableOpacity>
           <View>
             <Text style={styles.termsText}>I've read and accepted</Text>
-            <Text style={styles.termsLinkText}>Terms of Service and Privacy Policy</Text>
+            <Link href="login-details-screen">
+              <Text style={styles.termsLinkText}>Terms of Service and Privacy Policy</Text>
+            </Link>
           </View>
         </View>
       </KeyboardAvoidingView>

@@ -18,17 +18,18 @@ export default function AddChildScreen() {
   const [childName, setChildName] = useState(state.context.childrenNames[parseInt(index ?? '-1')] ?? '');
 
   const handleAddChild = () => {
-    if (index === undefined || (childName.length === 0 && index === '-1')) {
+    const trimmedChildName = childName.trim();
+    if (index === undefined || (trimmedChildName.length === 0 && index === '-1')) {
       navigation.goBack();
       return;
     }
     let updatedChildrenNames = [...state.context.childrenNames];
     if (index === '-1') {
-      updatedChildrenNames.push(childName);
-    } else if (childName.length === 0) {
+      updatedChildrenNames.push(trimmedChildName);
+    } else if (trimmedChildName.length === 0) {
       updatedChildrenNames.splice(parseInt(index), 1);
     } else {
-      updatedChildrenNames[parseInt(index)] = childName;
+      updatedChildrenNames[parseInt(index)] = trimmedChildName;
     }
     send({ type: 'SAVE_CHILDREN_NAMES', childrenNames: updatedChildrenNames });
     navigation.goBack();

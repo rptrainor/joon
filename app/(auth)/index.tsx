@@ -36,7 +36,7 @@ export default function NameScreen() {
           placeholder='E.g. Kevin'
           placeholderTextColor={colors.placeholder}
           />
-        <PrimaryButton onPress={handlePressNext} disabled={!state.context.name.length}>
+        <PrimaryButton onPress={handlePressNext} disabled={!state.context.name.length} testID='next-button'>
           Next
         </PrimaryButton>
       </KeyboardAvoidingView>

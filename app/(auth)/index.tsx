@@ -6,7 +6,7 @@ import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { inputs } from '@/styles/inputs';
 import { spacing } from '@/styles/spacing';
-import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
+import  PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { useDebounce } from '@/hooks/useDebounce';
 import { colors } from '@/styles/colors';
 

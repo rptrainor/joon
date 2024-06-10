@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { containers } from '@/styles/containers';
 import { BackButton } from '@/components/Buttons/BackButton';
 import { colors } from '@/styles/colors';
-import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
+import  PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { typography } from '@/styles/typography';
 import { buttons } from '@/styles/buttons';
 import { useSend } from '@/contexts/MachineContext';

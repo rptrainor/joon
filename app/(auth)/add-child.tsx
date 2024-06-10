@@ -6,7 +6,7 @@ import { useSend } from '@/contexts/MachineContext';
 import { spacing } from '@/styles/spacing';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
-import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
+import  PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { buttons } from '@/styles/buttons';
 import { inputs } from '@/styles/inputs';
 import { colors } from '@/styles/colors';

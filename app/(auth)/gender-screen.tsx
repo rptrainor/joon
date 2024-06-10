@@ -6,7 +6,7 @@ import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { buttons } from '@/styles/buttons';
 import { BackButton } from '@/components/Buttons/BackButton';
-import { PrimaryButton } from '@/components/Buttons/PrimaryButton';
+import  PrimaryButton from '@/components/Buttons/PrimaryButton';
 
 export default function GenderScreen() {
   const { send, state, handlePressNext, handleBackButtonPress } = useSend();

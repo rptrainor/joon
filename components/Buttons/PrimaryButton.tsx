@@ -8,7 +8,7 @@ interface PrimaryButtonProps extends PressableProps {
   children: React.ReactNode;
 }
 
-export function PrimaryButton(props: PrimaryButtonProps) {
+function PrimaryButton(props: PrimaryButtonProps) {
   return (
     <Pressable {...props} style={[buttons.baseButton, buttons.primaryButton, { opacity: props.disabled ? 0.4 : 1 }]}>
       <Text style={[typography.baseButtonText, typography.buttonText]}>
@@ -17,3 +17,5 @@ export function PrimaryButton(props: PrimaryButtonProps) {
     </Pressable>
   );
 }
+
+export default PrimaryButton;

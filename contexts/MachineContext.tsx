@@ -3,9 +3,9 @@ import { useMachine } from '@xstate/react';
 
 import { machine } from '@/machines/create_account_machine';
 
-const SendContext = createContext<{ state: any, send: any, handleBackButtonPress: () => void, handlePressNext: () => void } | undefined>(undefined);
+export const SendContext = createContext<{ state: any, send: any, handleBackButtonPress: () => void, handlePressNext: () => void } | undefined>(undefined);
 
-interface MachineProviderProps {
+export interface MachineProviderProps {
   children: ReactNode;
 }
 

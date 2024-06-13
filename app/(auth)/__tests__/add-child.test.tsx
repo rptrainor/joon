@@ -4,7 +4,6 @@ import AddChildScreen from '@/app/(auth)/add-child';
 import { useNavigation, useLocalSearchParams } from 'expo-router';
 import { MachineContextProvider } from '@/contexts/__mocks__/MachineContextProvider';
 
-// Mock the useNavigation and useLocalSearchParams hooks from 'expo-router'
 jest.mock('expo-router', () => ({
   useNavigation: jest.fn(),
   useLocalSearchParams: jest.fn(),

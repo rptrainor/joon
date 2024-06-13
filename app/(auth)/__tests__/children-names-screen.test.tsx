@@ -4,7 +4,6 @@ import ChildrenNamesScreen from '@/app/(auth)/children-names-screen';
 import { useSend } from '@/contexts/MachineContext';
 import { router } from 'expo-router';
 
-// Mock the MachineContext and expo-router
 jest.mock('@/contexts/MachineContext', () => ({
   useSend: jest.fn(),
 }));

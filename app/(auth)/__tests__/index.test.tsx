@@ -31,7 +31,7 @@ describe('NameScreen Component', () => {
       handlePressNext: mockHandlePressNext,
     });
 
-    (require('@/hooks/useDebounce') as any).useDebounce.mockImplementation((fn) => fn);
+    (require('@/hooks/useDebounce') as any).useDebounce.mockImplementation((fn: any) => fn);
   });
 
   afterEach(() => {

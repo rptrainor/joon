@@ -51,17 +51,10 @@ describe('NameScreen Component', () => {
     const input = screen.getByPlaceholderText('E.g. Kevin');
 
     fireEvent.changeText(input, '');
-    expect(screen.getByText("Please enter a name")).toBeTruthy();
-  });
-
-  test('disables the button when input is empty or invalid', () => {
-    render(<NameScreen />);
     const button = screen.getByTestId('next-button');
-    expect(button.props.disabled).toBeTruthy();
+    fireEvent.press(button);
 
-    const input = screen.getByPlaceholderText('E.g. Kevin');
-    fireEvent.changeText(input, '');
-    expect(button.props.disabled).toBeTruthy();
+    expect(screen.getByText('Please enter a name')).toBeTruthy();
   });
 
   test('enables the button when input is valid', async () => {

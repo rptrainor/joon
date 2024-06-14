@@ -1,6 +1,7 @@
-import { Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform, View } from 'react-native';
-import React, { useState } from 'react';
+import { Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { useState } from 'react';
 import { z } from 'zod';
+import { router } from 'expo-router';
 
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
@@ -9,7 +10,6 @@ import { spacing } from '@/styles/spacing';
 import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { colors } from '@/styles/colors';
 import { useCreateAccountStore } from '@/stores/createAccountStore';
-import { router } from 'expo-router';
 import ErrorMessage from '@/components/ErrorMessage';
 
 const nameSchema = z.string().min(1, { message: "Please enter a name" });
@@ -56,7 +56,7 @@ export default function NameScreen() {
           placeholderTextColor={colors.placeholder}
         />
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <PrimaryButton onPress={handleNext} disabled={!name.length || error !== null} testID='next-button'>
+        <PrimaryButton onPress={handleNext} testID='next-button'>
           Next
         </PrimaryButton>
       </KeyboardAvoidingView>

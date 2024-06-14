@@ -12,6 +12,7 @@ import { typography } from '@/styles/typography';
 import { spacing } from '@/styles/spacing';
 import { colors } from '@/styles/colors';
 import { useCreateAccountStore } from '@/stores/createAccountStore';
+import ErrorMessage from '@/components/ErrorMessage';
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -100,7 +101,7 @@ export default function LoginDetailsScreen() {
               placeholderTextColor={colors.placeholder}
             />
           </View>
-          {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+          {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
         </View>
 
         <View style={styles.inputGroupContainer}>
@@ -123,7 +124,7 @@ export default function LoginDetailsScreen() {
               <FontAwesome6 name={showPassword ? 'eye-slash' : 'eye'} style={styles.inputIcon} />
             </TouchableOpacity>
           </View>
-          {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+          {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
         </View>
 
         <Pressable onPress={handleSubmit} style={[styles.submitButton, isNextButtonDisabled && styles.disabledButton]}>
@@ -226,10 +227,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightGray,
     borderRadius: spacing.large,
     fontWeight: 'bold',
-  },
-  errorText: {
-    color: colors.error,
-    marginTop: spacing.small,
   },
   submitButton: {
     backgroundColor: colors.secondary,

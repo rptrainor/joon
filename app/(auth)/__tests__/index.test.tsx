@@ -50,8 +50,8 @@ describe('NameScreen Component', () => {
     render(<NameScreen />);
     const input = screen.getByPlaceholderText('E.g. Kevin');
 
-    fireEvent.changeText(input, 'J');
-    expect(screen.getByText('Name must be at least 2 characters long')).toBeTruthy();
+    fireEvent.changeText(input, '');
+    expect(screen.getByText("Please enter a name")).toBeTruthy();
   });
 
   test('disables the button when input is empty or invalid', () => {
@@ -60,7 +60,7 @@ describe('NameScreen Component', () => {
     expect(button.props.disabled).toBeTruthy();
 
     const input = screen.getByPlaceholderText('E.g. Kevin');
-    fireEvent.changeText(input, 'J');
+    fireEvent.changeText(input, '');
     expect(button.props.disabled).toBeTruthy();
   });
 

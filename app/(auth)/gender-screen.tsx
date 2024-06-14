@@ -15,7 +15,7 @@ export default function GenderScreen() {
 
   return (
     <SafeAreaView style={containers.container}>
-      <BackButton onPress={router.back} />
+      <BackButton onPress={router.back} testID='back-button' />
       <View style={containers.innerContainer}>
         <Text style={typography.headerText}>What is your gender?</Text>
         <View style={styles.genderContainer}>
@@ -33,7 +33,7 @@ export default function GenderScreen() {
                   buttons.baseButtonText,
                   genderOption === gender && buttons.primaryButtonText,
                 ]}
-              >{gender}</Text>
+              >{genderOption}</Text>
             </Pressable>
           ))}
         </View>

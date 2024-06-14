@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 interface CreateAccountState {
   name: string;
-  gender: 'male' | 'female' | 'other';
+  gender: 'male' | 'female' | 'other' | undefined;
   childrenNames: string[];
   email: string;
   setName: (name: string) => void;
@@ -13,7 +13,7 @@ interface CreateAccountState {
 
 export const useCreateAccountStore = create<CreateAccountState>((set) => ({
   name: '',
-  gender: 'other',
+  gender: undefined,
   childrenNames: [],
   email: '',
   setName: (name) => set({ name }),

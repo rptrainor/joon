@@ -17,7 +17,6 @@ jest.mock('@/components/ListItemButton', () => 'ListItemButton');
 
 describe('ChildrenNamesScreen Component', () => {
   beforeEach(() => {
-    // Mock the initial state of the Zustand store
     useCreateAccountStore.setState({
       childrenNames: ['Alice'],
     });

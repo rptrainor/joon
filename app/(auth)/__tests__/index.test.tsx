@@ -1,11 +1,10 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
 import NameScreen from '@/app/(auth)/index';
 import { useCreateAccountStore } from '@/stores/createAccountStore';
 import { router } from 'expo-router';
 
 jest.mock('@/components/Buttons/PrimaryButton', () => 'PrimaryButton');
-
 
 jest.mock('expo-router', () => ({
   router: {
@@ -17,12 +16,11 @@ jest.useFakeTimers();
 
 describe('NameScreen Component', () => {
   beforeEach(() => {
-    // Mock the initial state of the Zustand store
+    // Mock the Zustand store's initial state and setName function
     useCreateAccountStore.setState({
       name: '',
-      setName: jest.fn(),
+      setName: (name) => useCreateAccountStore.setState({ name }),
     });
-
   });
 
   afterEach(() => {
@@ -35,18 +33,18 @@ describe('NameScreen Component', () => {
     expect(screen.getByPlaceholderText('E.g. Kevin')).toBeTruthy();
   });
 
-  // test('updates the input field and verifies state change', async () => {
-  //   render(<NameScreen />);
-  //   const input = screen.getByPlaceholderText('E.g. Kevin');
+  test('updates the input field and verifies state change', async () => {
+    render(<NameScreen />);
+    const input = screen.getByPlaceholderText('E.g. Kevin');
 
-  //   fireEvent.changeText(input, 'John Doe');
-  //   expect(input.props.value).toBe('John Doe');
+    fireEvent.changeText(input, 'John Doe');
+    expect(input.props.value).toBe('John Doe');
 
-  //   await waitFor(() => {
-  //     const state = useCreateAccountStore.getState();
-  //     expect(state.name).toBe('John Doe');
-  //   });
-  // });
+    await waitFor(() => {
+      const state = useCreateAccountStore.getState();
+      expect(state.name).toBe('John Doe');
+    });
+  });
 
   test('disables the button when input is empty', () => {
     render(<NameScreen />);

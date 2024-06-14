@@ -1,5 +1,5 @@
 import { Text, StyleSheet, SafeAreaView, Pressable, View } from 'react-native';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { z } from 'zod';
 import { router } from 'expo-router';
 
@@ -15,7 +15,7 @@ export const GENDER_OPTIONS = ['male', 'female', 'other'] as const;
 
 const genderSchema = z.enum(GENDER_OPTIONS, { errorMap: () => ({ message: 'Please select a gender' }) });
 
-export default function GenderScreen() {
+export default function GenderScreen(): ReactNode {
   const [gender, setGender] = useCreateAccountStore((state) => [state.gender, state.setGender]);
   const [error, setError] = useState<string | null>(null);
 

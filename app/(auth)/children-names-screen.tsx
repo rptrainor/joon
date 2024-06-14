@@ -1,5 +1,5 @@
 import { Text, StyleSheet, SafeAreaView, Pressable, View, FlatList } from 'react-native';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { router } from 'expo-router';
 import { z } from 'zod';
@@ -16,7 +16,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 
 const childrenNamesSchema = z.array(z.string().min(1)).min(1, { message: "Please add at least one child" });
 
-export default function ChildrenNamesScreen() {
+export default function ChildrenNamesScreen(): ReactNode {
   const [childrenNames] = useCreateAccountStore((state) => [state.childrenNames, state.setChildrenNames]);
   const [error, setError] = useState<string | null>(null);
 

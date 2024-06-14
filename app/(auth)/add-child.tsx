@@ -1,6 +1,6 @@
 import { useNavigation, useLocalSearchParams } from 'expo-router';
 import { Text, SafeAreaView, TextInput, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { spacing } from '@/styles/spacing';
 import { containers } from '@/styles/containers';
@@ -11,7 +11,7 @@ import { inputs } from '@/styles/inputs';
 import { colors } from '@/styles/colors';
 import { useCreateAccountStore } from '@/stores/createAccountStore';
 
-export default function AddChildScreen() {
+export default function AddChildScreen(): ReactNode {
   const [childrenNames, setChildrenNames] = useCreateAccountStore((state) => [state.childrenNames, state.setChildrenNames]);
   const navigation = useNavigation();
   const { index } = useLocalSearchParams<{ index: string }>();

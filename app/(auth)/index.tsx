@@ -1,5 +1,5 @@
 import { Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { z } from 'zod';
 import { router } from 'expo-router';
 
@@ -14,7 +14,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 
 const nameSchema = z.string().min(1, { message: "Please enter a name" });
 
-export default function NameScreen() {
+export default function NameScreen(): ReactNode {
   const [name, setName] = useCreateAccountStore((state) => [state.name, state.setName]);
   const [error, setError] = useState<string | null>(null);
 

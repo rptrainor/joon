@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Text, StyleSheet, SafeAreaView, TextInput, View, Pressable, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
-import { Foundation } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
+import { Foundation, FontAwesome6 } from '@expo/vector-icons';
 import CryptoJS from 'crypto-js';
-import z, { boolean } from 'zod';
+import z from 'zod';
 import { Link, router } from 'expo-router';
 
 import BackButton from '@/components/Buttons/BackButton';
@@ -19,7 +18,7 @@ const loginSchema = z.object({
   password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
 });
 
-export default function LoginDetailsScreen() {
+export default function LoginDetailsScreen(): ReactNode {
   const [email, setEmail] = useCreateAccountStore((state) => [state.email, state.setEmail]);
   const [name, gender, childrenNames] = useCreateAccountStore((state) => [state.name, state.gender, state.childrenNames]);
 

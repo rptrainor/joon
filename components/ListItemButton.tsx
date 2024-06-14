@@ -1,13 +1,13 @@
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 import { View, Text, Pressable, PressableProps } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 import { inputs } from '@/styles/inputs';
-import { spacing } from '@/styles/spacing';
+import { spacing } from '@/styles/spacing'; 
 import { buttons } from '@/styles/buttons';
 import { typography } from '@/styles/typography';
 
-const ListItemButton: FC<PropsWithChildren & PressableProps>= (props) => {
+const ListItemButton: FC<PropsWithChildren & PressableProps> = (props): ReactNode => {
   return (
     <View style={[inputs.baseInput, { marginBottom: spacing.small, justifyContent: 'space-between', height: 'auto', minHeight: spacing.xlarge }]}>
       <Text style={[inputs.baseButtonText, { textAlign: 'left' }]}>{props.children}</Text>

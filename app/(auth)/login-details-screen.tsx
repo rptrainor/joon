@@ -3,7 +3,7 @@ import { Text, StyleSheet, SafeAreaView, TextInput, View, Pressable, TouchableOp
 import { Foundation } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import CryptoJS from 'crypto-js';
-import z from 'zod';
+import z, { boolean } from 'zod';
 import { Link, router } from 'expo-router';
 
 import BackButton from '@/components/Buttons/BackButton';
@@ -21,12 +21,23 @@ const loginSchema = z.object({
 
 export default function LoginDetailsScreen() {
   const [email, setEmail] = useCreateAccountStore((state) => [state.email, state.setEmail]);
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [name, gender, childrenNames] = useCreateAccountStore((state) => [state.name, state.gender, state.childrenNames]);
+
+  const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
   const handleSubmit = () => {
+    const hashedPassword = CryptoJS.SHA256(password).toString();
+    const data = {
+      email,
+      password: hashedPassword,
+      name,
+      gender,
+      childrenNames,
+    }
+    console.log({ data });
     //TODO: Implement Create Account
     return
   };
@@ -67,9 +78,17 @@ export default function LoginDetailsScreen() {
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    validatePassword(text)
-    const hashedPassword = CryptoJS.SHA256(text).toString();
-    // debouncedSendPassword(hashedPassword);
+    try {
+      loginSchema.parse({ email, password: text });
+      setErrors(prevErrors => ({ ...prevErrors, password: undefined }));
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const passwordError = error.errors.find(err => err.path.includes('password'))?.message;
+        setErrors(prevErrors => ({ ...prevErrors, password: passwordError }));
+        return false;
+      }
+    }
   };
 
 
@@ -166,17 +185,6 @@ const styles = StyleSheet.create({
   termsButtonIconText: {
     fontSize: 12,
     textAlign: 'center',
-  },
-  termsIcon: {
-    fontSize: spacing.medium,
-    color: colors.white,
-    borderRadius: spacing.large,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    margin: 0,
-    right: 0,
   },
   termsText: {
     fontSize: spacing.small,

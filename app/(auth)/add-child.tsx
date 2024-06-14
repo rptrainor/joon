@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { spacing } from '@/styles/spacing';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
-import  PrimaryButton from '@/components/Buttons/PrimaryButton';
+import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { buttons } from '@/styles/buttons';
 import { inputs } from '@/styles/inputs';
 import { colors } from '@/styles/colors';
@@ -49,7 +49,7 @@ export default function AddChildScreen() {
           onChangeText={setChildName}
           autoFocus
           placeholderTextColor={colors.placeholder}
-          />
+        />
         <PrimaryButton onPress={handleAddChild} disabled={!childName.length && index === '-1'} testID='add-child-button'>
           {index === '-1' ? 'Add name' : childName.length > 0 ? 'Change name' : 'Remove name'}
         </PrimaryButton>

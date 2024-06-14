@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import AddChildScreen from '@/app/(auth)/add-child';
 import { useNavigation, useLocalSearchParams } from 'expo-router';
-import { MachineContextProvider } from '@/contexts/__mocks__/MachineContextProvider';
+import { useCreateAccountStore } from '@/stores/createAccountStore';
 
 jest.mock('expo-router', () => ({
   useNavigation: jest.fn(),
@@ -26,6 +26,11 @@ describe('AddChildScreen Component', () => {
     (useLocalSearchParams as jest.Mock).mockReturnValue({
       index: '0',
     });
+
+    // Mock the initial state of the Zustand store
+    useCreateAccountStore.setState({
+      childrenNames: ['Alice'],
+    });
   });
 
   afterEach(() => {
@@ -33,22 +38,14 @@ describe('AddChildScreen Component', () => {
   });
 
   test('renders correctly with initial state values', () => {
-    render(
-      <MachineContextProvider>
-        <AddChildScreen />
-      </MachineContextProvider>
-    );
+    render(<AddChildScreen />);
     expect(screen.getByText('Add Child')).toBeTruthy();
     expect(screen.getByPlaceholderText("Enter child's name")).toBeTruthy();
     expect(screen.getByPlaceholderText("Enter child's name").props.value).toBe('Alice');
   });
 
   test('updates the input field and verifies state change', () => {
-    render(
-      <MachineContextProvider>
-        <AddChildScreen />
-      </MachineContextProvider>
-    );
+    render(<AddChildScreen />);
     const input = screen.getByPlaceholderText("Enter child's name");
 
     fireEvent.changeText(input, 'Bob');
@@ -56,11 +53,8 @@ describe('AddChildScreen Component', () => {
   });
 
   test('handles the add child action', () => {
-    render(
-      <MachineContextProvider>
-        <AddChildScreen />
-      </MachineContextProvider>
-    );
+    render(<AddChildScreen />);
+
     const input = screen.getByPlaceholderText("Enter child's name");
     const button = screen.getByTestId('add-child-button');
 
@@ -70,11 +64,8 @@ describe('AddChildScreen Component', () => {
   });
 
   test('handles the cancel action', () => {
-    render(
-      <MachineContextProvider>
-        <AddChildScreen />
-      </MachineContextProvider>
-    );
+    render(<AddChildScreen />);
+
     const cancelButton = screen.getByText('Cancel');
 
     fireEvent.press(cancelButton);

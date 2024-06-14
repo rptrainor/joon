@@ -2,7 +2,6 @@ import { useNavigation, useLocalSearchParams } from 'expo-router';
 import { Text, SafeAreaView, TextInput, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import { useState } from 'react';
 
-import { useSend } from '@/contexts/MachineContext';
 import { spacing } from '@/styles/spacing';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
@@ -10,13 +9,14 @@ import  PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { buttons } from '@/styles/buttons';
 import { inputs } from '@/styles/inputs';
 import { colors } from '@/styles/colors';
+import { useCreateAccountStore } from '@/stores/createAccountStore';
 
 export default function AddChildScreen() {
-  const { send, state } = useSend();
+  const [childrenNames, setChildrenNames] = useCreateAccountStore((state) => [state.childrenNames, state.setChildrenNames]);
   const navigation = useNavigation();
   const { index } = useLocalSearchParams<{ index: string }>();
 
-  const [childName, setChildName] = useState(state.context.childrenNames[parseInt(index ?? '-1')] ?? '');
+  const [childName, setChildName] = useState(childrenNames[parseInt(index ?? '-1')] ?? '');
 
   const handleAddChild = () => {
     const trimmedChildName = childName.trim();
@@ -24,7 +24,7 @@ export default function AddChildScreen() {
       navigation.goBack();
       return;
     }
-    let updatedChildrenNames = [...state.context.childrenNames];
+    let updatedChildrenNames = [...childrenNames];
     if (index === '-1') {
       updatedChildrenNames.push(trimmedChildName);
     } else if (trimmedChildName.length === 0) {
@@ -32,7 +32,7 @@ export default function AddChildScreen() {
     } else {
       updatedChildrenNames[parseInt(index)] = trimmedChildName;
     }
-    send({ type: 'SAVE_CHILDREN_NAMES', childrenNames: updatedChildrenNames });
+    setChildrenNames(updatedChildrenNames);
     navigation.goBack();
   };
 

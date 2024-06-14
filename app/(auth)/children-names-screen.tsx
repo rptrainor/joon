@@ -8,25 +8,24 @@ import { colors } from '@/styles/colors';
 import  PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { typography } from '@/styles/typography';
 import { buttons } from '@/styles/buttons';
-import { useSend } from '@/contexts/MachineContext';
 import ListItemButton from '@/components/ListItemButton';
+import { useCreateAccountStore } from '@/stores/createAccountStore';
 
 export default function ChildrenNamesScreen() {
-  const { handleBackButtonPress, state, handlePressNext } = useSend();
-
+  const [childrenNames] = useCreateAccountStore((state) => [state.childrenNames, state.setChildrenNames]);
   const handleAddChild = ({ index }: { index: number }) => {
     router.navigate(`add-child?index=${index}`);
   };
 
   return (
     <SafeAreaView style={containers.container}>
-      <BackButton onPress={handleBackButtonPress} testID='back-button' />
+      <BackButton onPress={router.back} testID='back-button' />
       <View style={containers.innerContainer}>
         <Text style={typography.headerText}>Add your children</Text>
-        {state.context.childrenNames && state.context.childrenNames.length > 0 ? (
+        {childrenNames.length > 0 ? (
           <FlatList
             style={{ maxHeight: '50%' }}
-            data={state.context.childrenNames}
+            data={childrenNames}
             renderItem={({ item, index }) => (
               <ListItemButton onPress={() => handleAddChild({ index: index })} >{item}</ListItemButton>
             )}
@@ -35,9 +34,9 @@ export default function ChildrenNamesScreen() {
         ) : null}
           <Pressable onPress={() => handleAddChild({ index: -1 })} style={[buttons.baseButton, styles.modalTriggerButton]}>
             <FontAwesome6 name="plus" size={18} color={colors.secondary} />
-            <Text style={[typography.baseButtonText, styles.modalTriggerButtonText]}>{`Add ${state.context.childrenNames.length > 0 ? 'another child' : 'a child'}`}</Text>
+            <Text style={[typography.baseButtonText, styles.modalTriggerButtonText]}>{`Add ${childrenNames.length > 0 ? 'another child' : 'a child'}`}</Text>
           </Pressable>
-        <PrimaryButton onPress={handlePressNext} disabled={!state.context.childrenNames.length} testID='next-button'>
+        <PrimaryButton onPress={() => router.navigate('(auth)/login-details-screen')} disabled={!childrenNames.length} testID='next-button'>
           Done
         </PrimaryButton>
       </View>

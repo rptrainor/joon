@@ -1,43 +1,43 @@
 import { Text, StyleSheet, SafeAreaView, Pressable, View } from 'react-native';
+import { router } from 'expo-router';
 
-import { useSend } from '@/contexts/MachineContext';
-import { GENDER_OPTIONS } from '@/machines/create_account_machine';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { buttons } from '@/styles/buttons';
 import BackButton from '@/components/Buttons/BackButton';
 import  PrimaryButton from '@/components/Buttons/PrimaryButton';
+import { useCreateAccountStore } from '@/stores/createAccountStore';
+
+export const GENDER_OPTIONS = ['male', 'female', 'other'] as const;
 
 export default function GenderScreen() {
-  const { send, state, handlePressNext, handleBackButtonPress } = useSend();
-
-  const selectedGender = state.context.gender;
+  const [gender, setGender] = useCreateAccountStore((state) => [state.gender, state.setGender]);
 
   return (
     <SafeAreaView style={containers.container}>
-      <BackButton onPress={handleBackButtonPress} />
+      <BackButton onPress={router.back} />
       <View style={containers.innerContainer}>
         <Text style={typography.headerText}>What is your gender?</Text>
         <View style={styles.genderContainer}>
-          {GENDER_OPTIONS.map((gender) => (
+          {GENDER_OPTIONS.map((genderOption) => (
             <Pressable
-              key={gender}
-              onPress={() => send({ type: 'SAVE_GENDER', gender })}
+              key={genderOption}
+              onPress={() => setGender(genderOption)}
               style={[
                 buttons.baseButton,
-                gender === selectedGender ? styles.genderButtonSelected : styles.genderButton,
+                genderOption === gender ? styles.genderButtonSelected : styles.genderButton,
               ]}
             >
               <Text
                 style={[
                   buttons.baseButtonText,
-                  gender === selectedGender && buttons.primaryButtonText,
+                  genderOption === gender && buttons.primaryButtonText,
                 ]}
               >{gender}</Text>
             </Pressable>
           ))}
         </View>
-        <PrimaryButton onPress={handlePressNext}>
+        <PrimaryButton onPress={() => router.navigate('(auth)/children-names-screen')} disabled={!gender} testID='next-button'>
           Next
         </PrimaryButton>
       </View>

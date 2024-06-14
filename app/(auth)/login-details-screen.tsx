@@ -4,15 +4,14 @@ import { Foundation } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import CryptoJS from 'crypto-js';
 import z from 'zod';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
-import { useSend } from '@/contexts/MachineContext';
 import BackButton from '@/components/Buttons/BackButton';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
-import { useDebounce } from '@/hooks/useDebounce';
 import { spacing } from '@/styles/spacing';
 import { colors } from '@/styles/colors';
+import { useCreateAccountStore } from '@/stores/createAccountStore';
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -20,16 +19,15 @@ const loginSchema = z.object({
 });
 
 export default function LoginDetailsScreen() {
-  const { send, handleBackButtonPress, state } = useSend();
-
-  const [email, setEmail] = useState(state.context.email);
+  const [email, setEmail] = useCreateAccountStore((state) => [state.email, state.setEmail]);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
   const handleSubmit = () => {
-    send({ type: 'CREATE_ACCOUNT' });
+    //TODO: Implement Create Account
+    return
   };
 
   const validateEmail = (text: string) => {
@@ -63,29 +61,22 @@ export default function LoginDetailsScreen() {
   const handleEmailChange = (text: string) => {
     setEmail(text);
     validateEmail(text)
-    debouncedSendEmail(text)
+    // debouncedSendEmail(text)
   };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
     validatePassword(text)
     const hashedPassword = CryptoJS.SHA256(text).toString();
-    debouncedSendPassword(hashedPassword);
+    // debouncedSendPassword(hashedPassword);
   };
 
-  const debouncedSendEmail = useDebounce((email: string) => {
-    send({ type: 'SAVE_EMAIL', email });
-  }, 300);
-
-  const debouncedSendPassword = useDebounce((hashedPassword: string) => {
-    send({ type: 'SAVE_PASSWORD', password: hashedPassword });
-  }, 300);
 
   const isNextButtonDisabled = !email || !password || !!errors.email || !!errors.password || !agreeToTerms;
 
   return (
     <SafeAreaView style={[containers.container]}>
-      <BackButton onPress={handleBackButtonPress} />
+      <BackButton onPress={router.back} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={containers.innerContainer}>

@@ -14,9 +14,6 @@ importers:
       '@react-navigation/native':
         specifier: ^6.0.2
         version: 6.1.17(react-native@0.74.2(@babel/core@7.24.7)(@babel/preset-env@7.24.7(@babel/core@7.24.7))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
-      '@xstate/react':
-        specifier: ^4.1.1
-        version: 4.1.1(@types/react@18.2.79)(react@18.2.0)(xstate@5.13.1)
       FontAwesome5:
         specifier: link:@expo/vector-icons/FontAwesome5
         version: link:@expo/vector-icons/FontAwesome5
@@ -77,9 +74,9 @@ importers:
       react-native-web:
         specifier: ~0.19.10
         version: 0.19.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      xstate:
-        specifier: ^5.13.1
-        version: 5.13.1
+      zustand:
+        specifier: ^4.5.2
+        version: 4.5.2(@types/react@18.2.79)(react@18.2.0)
     devDependencies:
       '@babel/core':
         specifier: ^7.20.0
@@ -1606,15 +1603,6 @@ packages:
   '@xmldom/xmldom@0.8.10':
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
     engines: {node: '>=10.0.0'}
-
-  '@xstate/react@4.1.1':
-    resolution: {integrity: sha512-pFp/Y+bnczfaZ0V8B4LOhx3d6Gd71YKAPbzerGqydC2nsYN/mp7RZu3q/w6/kvI2hwR/jeDeetM7xc3JFZH2NA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      xstate: ^5.11.0
-    peerDependenciesMeta:
-      xstate:
-        optional: true
 
   '@zxing/text-encoding@0.9.0':
     resolution: {integrity: sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==}
@@ -5126,22 +5114,13 @@ packages:
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
-  use-isomorphic-layout-effect@1.1.2:
-    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
   use-latest-callback@0.1.9:
     resolution: {integrity: sha512-CL/29uS74AwreI/f2oz2hLTW7ZqVeV5+gxFeGudzQrgkCytrHw33G4KbnQOrRlAEzzAFXi7dDLMC9zhWcVpzmw==}
     peerDependencies:
       react: '>=16.8'
 
-  use-sync-external-store@1.2.2:
-    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
+  use-sync-external-store@1.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
@@ -5356,9 +5335,6 @@ packages:
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
 
-  xstate@5.13.1:
-    resolution: {integrity: sha512-saBUxsTb29Vq8bjq1TjLdGCYs2pneGMzQ7pqQyXh1nqZaSnKHkCkxf3EV+EDYbLnQioxK9HNMYPQrz4whj3RJQ==}
-
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
@@ -5407,6 +5383,21 @@ packages:
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
+  zustand@4.5.2:
+    resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0.6'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
 
 snapshots:
 
@@ -7928,16 +7919,6 @@ snapshots:
   '@xmldom/xmldom@0.7.13': {}
 
   '@xmldom/xmldom@0.8.10': {}
-
-  '@xstate/react@4.1.1(@types/react@18.2.79)(react@18.2.0)(xstate@5.13.1)':
-    dependencies:
-      react: 18.2.0
-      use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.79)(react@18.2.0)
-      use-sync-external-store: 1.2.2(react@18.2.0)
-    optionalDependencies:
-      xstate: 5.13.1
-    transitivePeerDependencies:
-      - '@types/react'
 
   '@zxing/text-encoding@0.9.0':
     optional: true
@@ -12032,17 +12013,11 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
-  use-isomorphic-layout-effect@1.1.2(@types/react@18.2.79)(react@18.2.0):
-    dependencies:
-      react: 18.2.0
-    optionalDependencies:
-      '@types/react': 18.2.79
-
   use-latest-callback@0.1.9(react@18.2.0):
     dependencies:
       react: 18.2.0
 
-  use-sync-external-store@1.2.2(react@18.2.0):
+  use-sync-external-store@1.2.0(react@18.2.0):
     dependencies:
       react: 18.2.0
 
@@ -12229,8 +12204,6 @@ snapshots:
 
   xmlchars@2.2.0: {}
 
-  xstate@5.13.1: {}
-
   xtend@4.0.2: {}
 
   y18n@4.0.3: {}
@@ -12279,3 +12252,10 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zod@3.23.8: {}
+
+  zustand@4.5.2(@types/react@18.2.79)(react@18.2.0):
+    dependencies:
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    optionalDependencies:
+      '@types/react': 18.2.79
+      react: 18.2.0

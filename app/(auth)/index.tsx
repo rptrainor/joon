@@ -1,27 +1,16 @@
 import { Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { useState } from 'react';
 
-import { useSend } from '@/contexts/MachineContext';
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { inputs } from '@/styles/inputs';
 import { spacing } from '@/styles/spacing';
 import  PrimaryButton from '@/components/Buttons/PrimaryButton';
-import { useDebounce } from '@/hooks/useDebounce';
 import { colors } from '@/styles/colors';
+import { useCreateAccountStore } from '@/stores/createAccountStore';
+import { router } from 'expo-router';
 
 export default function NameScreen() {
-  const { send, state, handlePressNext } = useSend();
-  const [inputValue, setInputValue] = useState(state.context.name);
-
-  const handleNameChange = (text: string) => {
-    setInputValue(text);
-    debouncedSendName(text);
-  };
-
-  const debouncedSendName = useDebounce((text: string) => {
-    send({ type: 'SAVE_NAME', name: text });
-  }, 300);
+  const [name, setName] = useCreateAccountStore((state) => [state.name, state.setName]);
 
   return (
     <SafeAreaView style={[containers.container]}>
@@ -31,12 +20,12 @@ export default function NameScreen() {
         <Text style={typography.headerText}>What is your name?</Text>
         <TextInput
           style={inputs.baseInput}
-          onChangeText={handleNameChange}
-          value={inputValue}
+          onChangeText={setName}
+          value={name}
           placeholder='E.g. Kevin'
           placeholderTextColor={colors.placeholder}
           />
-        <PrimaryButton onPress={handlePressNext} disabled={!state.context.name.length} testID='next-button'>
+        <PrimaryButton onPress={() => router.navigate('(auth)/gender-screen')} disabled={!name.length} testID='next-button'>
           Next
         </PrimaryButton>
       </KeyboardAvoidingView>

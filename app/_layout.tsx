@@ -10,8 +10,6 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
-import { MachineProvider } from '@/contexts/MachineContext';
-
 export const unstable_settings = {
   initialRouteName: '(auth)',
 };
@@ -45,12 +43,10 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <StatusBar barStyle="dark-content" />
-      <MachineProvider>
         <Stack>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
-      </MachineProvider>
     </ThemeProvider>
   );
 }

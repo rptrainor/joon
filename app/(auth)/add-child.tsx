@@ -50,7 +50,7 @@ export default function AddChildScreen() {
           autoFocus
           placeholderTextColor={colors.placeholder}
         />
-        <PrimaryButton onPress={handleAddChild} disabled={!childName.length && index === '-1'} testID='add-child-button'>
+        <PrimaryButton onPress={handleAddChild} testID='add-child-button'>
           {index === '-1' ? 'Add name' : childName.length > 0 ? 'Change name' : 'Remove name'}
         </PrimaryButton>
         <Pressable onPress={navigation.goBack} style={[buttons.baseButton, buttons.secondaryButton]}>

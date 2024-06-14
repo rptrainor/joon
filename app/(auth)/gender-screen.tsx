@@ -1,5 +1,5 @@
 import { Text, StyleSheet, SafeAreaView, Pressable, View } from 'react-native';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { z } from 'zod';
 import { router } from 'expo-router';
 
@@ -18,6 +18,11 @@ const genderSchema = z.enum(GENDER_OPTIONS, { errorMap: () => ({ message: 'Pleas
 export default function GenderScreen() {
   const [gender, setGender] = useCreateAccountStore((state) => [state.gender, state.setGender]);
   const [error, setError] = useState<string | null>(null);
+
+  const handleGenderSelect = (selectedGender: typeof GENDER_OPTIONS[number]) => {
+    setGender(selectedGender);
+    setError(null); 
+  };
 
   const handleNext = () => {
     try {
@@ -40,7 +45,7 @@ export default function GenderScreen() {
           {GENDER_OPTIONS.map((genderOption) => (
             <Pressable
               key={genderOption}
-              onPress={() => setGender(genderOption)}
+              onPress={() => handleGenderSelect(genderOption)}
               style={[
                 buttons.baseButton,
                 genderOption === gender ? styles.genderButtonSelected : styles.genderButton,
@@ -56,7 +61,7 @@ export default function GenderScreen() {
           ))}
         </View>
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <PrimaryButton onPress={handleNext} disabled={!gender} testID='next-button'>
+        <PrimaryButton onPress={handleNext} testID='next-button'>
           Next
         </PrimaryButton>
       </View>

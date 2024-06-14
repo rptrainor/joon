@@ -55,12 +55,6 @@ describe('GenderScreen Component', () => {
     expect(router.navigate).toHaveBeenCalledWith('(auth)/children-names-screen');
   });
 
-  test('disables the next button when no gender is selected', () => {
-    render(<GenderScreen />);
-    
-    const nextButton = screen.getByTestId('next-button');
-    expect(nextButton.props.disabled).toBeTruthy();
-  });
 
   test('enables the next button when a gender is selected', () => {
     useCreateAccountStore.setState({ gender: 'male' });
@@ -78,4 +72,14 @@ describe('GenderScreen Component', () => {
     
     expect(router.back).toHaveBeenCalled();
   });
+
+  test('displays error message when not a valid gender is selected', async () => {
+    render(<GenderScreen />);
+
+    const button = screen.getByTestId('next-button');
+    fireEvent.press(button);
+
+    expect(screen.getByText('Please select a gender')).toBeTruthy();
+  });
+
 });

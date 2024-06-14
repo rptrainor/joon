@@ -1,12 +1,14 @@
 import { create } from 'zustand';
 
+import { GENDER_OPTIONS } from '@/app/(auth)/gender-screen';
+
 interface CreateAccountState {
   name: string;
-  gender: 'male' | 'female' | 'other' | undefined;
+  gender: typeof GENDER_OPTIONS[number] | undefined;
   childrenNames: string[];
   email: string;
   setName: (name: string) => void;
-  setGender: (gender: 'male' | 'female' | 'other') => void;
+  setGender: (gender: typeof GENDER_OPTIONS[number]) => void;
   setChildrenNames: (childrenNames: string[]) => void;
   setEmail: (email: string) => void;
 }

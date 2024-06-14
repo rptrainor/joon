@@ -18,7 +18,7 @@ describe('GenderScreen Component', () => {
   beforeEach(() => {
     // Mock the initial state of the Zustand store
     useCreateAccountStore.setState({
-      gender: '',
+      gender: undefined,
       setGender: (gender) => useCreateAccountStore.setState({ gender }),
     });
   });

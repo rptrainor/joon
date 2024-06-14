@@ -46,13 +46,25 @@ describe('NameScreen Component', () => {
     });
   });
 
-  test('disables the button when input is empty', () => {
+  test('displays error message when input is invalid', async () => {
+    render(<NameScreen />);
+    const input = screen.getByPlaceholderText('E.g. Kevin');
+
+    fireEvent.changeText(input, 'J');
+    expect(screen.getByText('Name must be at least 2 characters long')).toBeTruthy();
+  });
+
+  test('disables the button when input is empty or invalid', () => {
     render(<NameScreen />);
     const button = screen.getByTestId('next-button');
     expect(button.props.disabled).toBeTruthy();
+
+    const input = screen.getByPlaceholderText('E.g. Kevin');
+    fireEvent.changeText(input, 'J');
+    expect(button.props.disabled).toBeTruthy();
   });
 
-  test('enables the button when input is not empty', async () => {
+  test('enables the button when input is valid', async () => {
     useCreateAccountStore.setState({ name: 'John Doe' });
     render(<NameScreen />);
     const button = screen.getByTestId('next-button');

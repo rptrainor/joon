@@ -1,16 +1,46 @@
-import { Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { Text, SafeAreaView, TextInput, KeyboardAvoidingView, Platform, View } from 'react-native';
+import React, { useState } from 'react';
+import { z } from 'zod';
 
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { inputs } from '@/styles/inputs';
 import { spacing } from '@/styles/spacing';
-import  PrimaryButton from '@/components/Buttons/PrimaryButton';
+import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { colors } from '@/styles/colors';
 import { useCreateAccountStore } from '@/stores/createAccountStore';
 import { router } from 'expo-router';
+import ErrorMessage from '@/components/ErrorMessage';
+
+const nameSchema = z.string().min(1, { message: "Please enter a name" });
 
 export default function NameScreen() {
   const [name, setName] = useCreateAccountStore((state) => [state.name, state.setName]);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChangeText = (text: string) => {
+    setName(text);
+    try {
+      nameSchema.parse(text);
+      setError(null);
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        setError(e.errors[0].message);
+      }
+    }
+  };
+
+  const handleNext = () => {
+    try {
+      nameSchema.parse(name);
+      setError(null);
+      router.navigate('(auth)/gender-screen');
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        setError(e.errors[0].message);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={[containers.container]}>
@@ -20,12 +50,13 @@ export default function NameScreen() {
         <Text style={typography.headerText}>What is your name?</Text>
         <TextInput
           style={inputs.baseInput}
-          onChangeText={setName}
+          onChangeText={handleChangeText}
           value={name}
           placeholder='E.g. Kevin'
           placeholderTextColor={colors.placeholder}
-          />
-        <PrimaryButton onPress={() => router.navigate('(auth)/gender-screen')} disabled={!name.length} testID='next-button'>
+        />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <PrimaryButton onPress={handleNext} disabled={!name.length || error !== null} testID='next-button'>
           Next
         </PrimaryButton>
       </KeyboardAvoidingView>

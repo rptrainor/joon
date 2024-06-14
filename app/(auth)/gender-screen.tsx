@@ -1,17 +1,35 @@
 import { Text, StyleSheet, SafeAreaView, Pressable, View } from 'react-native';
+import React, { useState } from 'react';
+import { z } from 'zod';
 import { router } from 'expo-router';
 
 import { containers } from '@/styles/containers';
 import { typography } from '@/styles/typography';
 import { buttons } from '@/styles/buttons';
 import BackButton from '@/components/Buttons/BackButton';
-import  PrimaryButton from '@/components/Buttons/PrimaryButton';
+import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import { useCreateAccountStore } from '@/stores/createAccountStore';
+import ErrorMessage from '@/components/ErrorMessage';
 
 export const GENDER_OPTIONS = ['male', 'female', 'other'] as const;
 
+const genderSchema = z.enum(GENDER_OPTIONS, { errorMap: () => ({ message: 'Please select a gender' }) });
+
 export default function GenderScreen() {
   const [gender, setGender] = useCreateAccountStore((state) => [state.gender, state.setGender]);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleNext = () => {
+    try {
+      genderSchema.parse(gender);
+      setError(null);
+      router.navigate('(auth)/children-names-screen');
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        setError(e.errors[0].message);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={containers.container}>
@@ -37,7 +55,8 @@ export default function GenderScreen() {
             </Pressable>
           ))}
         </View>
-        <PrimaryButton onPress={() => router.navigate('(auth)/children-names-screen')} disabled={!gender} testID='next-button'>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <PrimaryButton onPress={handleNext} disabled={!gender} testID='next-button'>
           Next
         </PrimaryButton>
       </View>

@@ -1,34 +1,19 @@
 import { colors } from "@/styles/colors";
 import { spacing } from "@/styles/spacing";
 import { FC, PropsWithChildren } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, StyleSheet, TextProps } from "react-native";
 
-const ErrorMessage: FC<PropsWithChildren> = (props) => {
-  return (
-    <View style={styles.errorContainer}>
-      <Text style={styles.errorText}>{props.children}</Text>
-    </View>
-  )
+const ErrorMessage: FC<TextProps & PropsWithChildren> = (props) => {
+  return <Text {...props} style={[styles.errorText, props.style]}>{props.children}</Text>;
 }
 
 export default ErrorMessage;
 
 const styles = StyleSheet.create({
-  errorContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.medium,
-    paddingVertical: spacing.small,
-    borderWidth: 1,
-    borderColor: colors.utility_danger_shade,
-    borderRadius: spacing.large,
-    backgroundColor: colors.utility_danger_tint,
-    width: 'auto',
-  },
   errorText: {
-    fontSize: spacing.medium,
+    fontSize: spacing.small,
     fontWeight: 'bold',
-    color: colors.utility_danger_shade
+    color: colors.utility_danger_shade,
+    marginTop: -spacing.small,
   },
 });
